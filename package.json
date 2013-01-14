@@ -1,0 +1,30 @@
+{
+  "name": "shinst",    
+  "version": "1.0.0",
+  "description": "Superficial package management utility",
+  "keywords": ["phar", "filesystem", "watch", "update", "auto"],
+  "homepage": "http://github.com/alternatex/shinst",
+  "author": {
+    "name": "Gianni Furger",
+    "email": "gianni.furger@gmail.com",
+    "url": "http://github.com/alternatex/"
+  },
+  "bundle": "shinst",
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "https://raw.github.com/alternatex/shinst/master/LICENSE"
+    },
+    {
+      "type": "MIT",
+      "url": "https://raw.github.com/alternatex/shinst/master/LICENSE"
+    }
+  ],
+  "engines": {
+      "node": ">=0.8.x",
+      "npm":  ">=1.1.x"
+  }, 
+  "dependencies": {
+      "bower": ">=0.0.0"
+  }
+}
