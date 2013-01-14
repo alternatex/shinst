@@ -115,7 +115,6 @@ shinst_init(){
         echo "" && shinst_error "directory exists: $installdir"
         exit -1
       fi
-
     fi
 
     # clone repo
@@ -148,21 +147,21 @@ shinst_init(){
 
     # run install script
     cd "$prefix/.$name" && chmod a+x install.sh && ./install.sh && cd -
-  
+
   # handle action - update
   elif [ "$action" = "$shinst_action_update" ]; then
-    cd "$installdir"
-    git pull
+
+    # update by remote origin
+    cd "$installdir" && git pull && cd -
 
   # handle action - remove
   elif [ "$action" = "$shinst_action_remove" ]; then      
-    printf "remove $shinst_name? («Y» to edit or any key to cancel) " && read -e REPLY  
-    ([ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]) && rm -rf "$installdir" && echo "removed $installdir"
 
-  # handle action - unknown
-  else
-      echo "unknown command"
-      exit -1
+    # request user input
+    printf "remove $shinst_name? («Y» to edit or any key to cancel) " && read -e REPLY  
+
+    # process deletion or abort
+    ([ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]) && rm -rf "$installdir" && echo "removed $installdir"
   fi
 }
 
@@ -187,7 +186,7 @@ shinst_defaults(){
     # request user input
     printf "\e[33maction (install|update|remove): \e[0m" && read -p "" && shinst_action="$REPLY"
 
-    # validate action 
+    # validate action again
     if [[ "$action" -lt "1" ]] && [[ "$shinst_action" != "$shinst_action_install" ]] && [[ "$shinst_action" != "$shinst_action_update" ]] && [[ "$shinst_action" != "$shinst_action_remove" ]]; then
       
       # ...
@@ -207,8 +206,6 @@ shinst_defaults(){
     # check name
     if [[ -z "$shinst_name" ]] 
       then 
-
-      # fetch name from shortcut
       
       # ...
       shinst_name="$(echo name)"
@@ -224,8 +221,10 @@ shinst_defaults(){
 
       # request user input      
       printf "\e[33mname: \e[0m" && read -p "" && shinst_name="$REPLY"
-      if [[ -z "$shinst_name" ]] 
-        then 
+      
+      # check user input
+      if [[ -z "$shinst_name" ]]; then 
+
         # ...
         shinst_error "required option 'name' not set"
         shinst_usage
@@ -240,8 +239,9 @@ shinst_defaults(){
       # request user input
       printf "\e[33mrepository: \e[0m" && read -p "" && shinst_repo="$REPLY"
 
-      if [[ -z "$shinst_repo" ]] 
-        then 
+      # check user input
+      if [[ -z "$shinst_repo" ]]; then 
+
         # ...
         shinst_error "required option 'repo' not set"
         shinst_usage
@@ -280,52 +280,16 @@ shinst_verbose(){
 }
 
 # info utility
-shinst_info(){
-
-  # ...
-  printf "\e[1;34minfo\e[0m   $1\n"
-}
+shinst_info(){ printf "\e[1;34minfo\e[0m   $1\n" }
 
 # error utility
-shinst_error(){
+shinst_error(){ printf "\e[1;31merror\e[0m   $1\n\n" }
 
-  # ...
-  printf "\e[1;31merror\e[0m   $1\n\n"
-}
+# build github repo url (TODO: fix global reference)
+shinst_ghrepo(){ shinst_repo="https://github.com/${1}.git" }
 
-# build github repo url
-shinst_ghrepo(){
-
-  # set global (TODO: fix)
-  shinst_repo="https://github.com/${1}.git"
-}
-
-# check installation requirements
-shinst_check(){
-
-  # check required args - apply defaults
-  return 1
-}
-
-# ...
-shinst_list(){
-  echo "shinst_list"
-}
-
-# ...
-shinst_install(){
-  echo "shinst_install"
-}
-
-# ...
-shinst_remove(){
-  echo "shinst_remove"
-}
-
-# ...
-shinst_update(){
-  echo "shinst_update"
-}
+# check installation requirements (TODO: implement)
+shinst_check(){ return 1; }
 
 # determine separator pos/existance
 separator=`echo $shinst_ghrepo | sed -n "s/[/].*//p" | wc -c`
@@ -386,8 +350,7 @@ do
 done
 
 # say hi
-if [[ $shinst_verbose ]]
-  then
+if [[ $shinst_verbose ]]; then
   printf "\e[1;31m"
   echo "----------------------------------------------------"
   echo "- Shinst // Superficial Package Management Utility -"
