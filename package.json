@@ -20,11 +20,6 @@
       "url": "https://raw.github.com/alternatex/shinst/master/LICENSE"
     }
   ],
-  "engines": {
-      "node": ">=0.8.x",
-      "npm":  ">=1.1.x"
-  }, 
-  "dependencies": {
-      "bower": ">=0.0.0"
-  }
+  "engines": {}, 
+  "dependencies": {}
 }
