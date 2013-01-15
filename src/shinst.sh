@@ -280,13 +280,13 @@ shinst_verbose(){
 }
 
 # info utility
-shinst_info(){ printf "\e[1;34minfo\e[0m   $1\n" }
+shinst_info(){ printf "\e[1;34minfo\e[0m   $1\n"; }
 
 # error utility
-shinst_error(){ printf "\e[1;31merror\e[0m   $1\n\n" }
+shinst_error(){ printf "\e[1;31merror\e[0m   $1\n\n"; }
 
 # build github repo url (TODO: fix global reference)
-shinst_ghrepo(){ shinst_repo="https://github.com/${1}.git" }
+shinst_ghrepo(){ shinst_repo="https://github.com/${1}.git"; }
 
 # check installation requirements (TODO: implement)
 shinst_check(){ return 1; }
@@ -363,6 +363,3 @@ shinst_defaults
 
 # run shinst
 shinst_init
-
-# bye
-exit 1

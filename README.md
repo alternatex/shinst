@@ -26,37 +26,32 @@ Usage
 -------------
 
 ```shell
+$ shinst install -h
 
-usage:  shinst <action> <ghrepo> [options]
+usage: 	shinst <action> <ghrepo> [options]
         shinst <action> <ghrepo>  -n <name> [options]
         shinst <action> -n <name> -r <repo> [options]
 
 action: install, update, remove
 
-ghrepo: github repository <user>/<repo> eg.: alternatex/shinst
+ghrepo: github repository <user>/<repo> eg. alternatex/tunnelx
 
 options:
   -h            show this message        
   -n <name>     package name
   -p <prefix>   installation path prefix (defaults to ~/)
-  -r <url>      GIT repository (eg. https://github.com/alternatex/shinst.git)
+  -r <url>      GIT repository (eg. https://github.com/alternatex/tunnelx.git)
   -v            verbose
   -y            skip confirmation
 
-# bazinga
-shinst install alternatex/bazinga -n bazinga 
-
-# tunnelx
-shinst install alternatex/tunnelx -n tunnelx
-
-# pharci
-shinst install alternatex/pharci -n pharci
+example: shinst install alternatex/tunnelx
 
 ```
 
 Roadmap
 -------------
 - determine package by ghrepo shortcut
+- custom directory / prefix default for installed packages (collect binaries)
 - ... *
 
 License

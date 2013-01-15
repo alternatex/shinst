@@ -1,6 +1,6 @@
 {
   "name": "shinst",    
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Superficial package management utility",
   "keywords": ["phar", "filesystem", "watch", "update", "auto"],
   "homepage": "http://github.com/alternatex/shinst",
