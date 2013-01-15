@@ -39,13 +39,17 @@ ghrepo: github repository <user>/<repo> eg. alternatex/tunnelx
 options:
   -h            show this message        
   -n <name>     package name
-  -p <prefix>   installation path prefix (defaults to ~/)
+  -p <prefix>   installation path prefix (eg. ~/)
   -r <url>      GIT repository (eg. https://github.com/alternatex/tunnelx.git)
   -v            verbose
 
 example: shinst install alternatex/tunnelx
 
 ```
+
+Specification
+-------------
+...
 
 Roadmap
 -------------

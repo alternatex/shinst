@@ -110,30 +110,34 @@ shinst_init(){
     # clone repo
     git clone "$repo" "$installdir"
     
-    # shell configuration file (TODO: combine with $SHELL environment variable?)
+    # shell configuration file
     local shellcfg="$HOME/$rcfile"
+    local shellbin="/bin/bash"
 
     # bash
     if [ -f ~/.bashrc ]; then 
             shellcfg="$HOME/.bashrc"
+            shellbin="/bin/bash"
     fi
 
     # zsh
     if [ -f ~/.zshrc ]; then 
             shellcfg="$HOME/.zshrc"
+            shellbin="/bin/zsh"
     fi
 
     # ?
     if [ -f ~/.profile ]; then 
             shellcfg="$HOME/.profile"
+            shellbin="/bin/bash"
     fi
 
     # update shell configuration
     echo "# $name" >> $shellcfg
     echo "export PATH=$prefix/.$name/bin:\$PATH" >> $shellcfg
     
-    # apply - TODO: make this work for real within parent session!
-    . $shellcfg        
+    # apply
+    $shellbin && . $shellcfg        
 
     # run install script
     cd "$prefix/.$name" && chmod a+x install.sh && ./install.sh && cd -
