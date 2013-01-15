@@ -4,7 +4,7 @@
 shinst_defaults_prefix="~/.shinst"
 
 # helpers
-shinst_opts="hvyn:p:r:"
+shinst_opts="hvn:p:r:"
 shinst_action_install="install"
 shinst_action_update="update"
 shinst_action_remove="remove"
@@ -16,7 +16,6 @@ shinst_rcfile=
 shinst_instdir=
 shinst_prefix=
 shinst_verbose=
-shinst_confirmed=
 
 # arguments index (as action is mandatory start at 1)
 shinst_shift=1
@@ -45,7 +44,6 @@ options:
   -p <prefix>   installation path prefix (defaults to ~/)
   -r <url>      GIT repository (eg. https://github.com/alternatex/shinst.git)
   -v            verbose
-  -y            skip confirmation
 
 EOF
 }
@@ -334,11 +332,6 @@ do
     # show infos       
     v)
       shinst_verbose=1
-      ;;
-
-    # supress confirmation
-    y)
-      shinst_confirmed=1
       ;;
 
     # unknown option

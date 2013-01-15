@@ -42,7 +42,6 @@ options:
   -p <prefix>   installation path prefix (defaults to ~/)
   -r <url>      GIT repository (eg. https://github.com/alternatex/tunnelx.git)
   -v            verbose
-  -y            skip confirmation
 
 example: shinst install alternatex/tunnelx
 
@@ -51,6 +50,7 @@ example: shinst install alternatex/tunnelx
 Roadmap
 -------------
 - determine package by ghrepo shortcut
+- local packages 
 - custom directory / prefix default for installed packages (collect binaries)
 - ... *
 
