@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # defaults
-shinst_defaults_prefix="~/.shinst"
+shinst_defaults_prefix="$HOME"
 
 # helpers
 shinst_opts="hvn:p:r:"
@@ -13,7 +13,6 @@ shinst_action_remove="remove"
 shinst_name=
 shinst_repo=
 shinst_rcfile=
-shinst_instdir=
 shinst_prefix=
 shinst_verbose=
 
@@ -77,13 +76,6 @@ shinst_init(){
 
   # helper - install directory
   installdir=`echo "$prefix/.$name"`
-
-  # check command
-  #if command -v "$name" &>/dev/null
-  #then
-  #    shinst_verbose "$name found."
-  #    installed=true
-  #fi
 
   # handle action - install
   if [ "$action" = "$shinst_action_install" ]; then      
@@ -261,21 +253,8 @@ shinst_defaults(){
   shinst_info "directory:   ${shinst_prefix}/.${shinst_name}"  
 }
 
-# installation mode opts
-shinst_options(){
-
-  # debug
-  shinst_verbose "applying options"
-}
-
 # debug utility
-shinst_verbose(){
-
-  # ...
-  if [[ $shinst_verbose ]]; then
-    printf "\e[1;34mdebug\e[0m  $1\n"
-  fi    
-}
+shinst_verbose(){ if [[ $shinst_verbose ]]; then printf "\e[1;34mdebug\e[0m  $1\n"; fi }
 
 # info utility
 shinst_info(){ printf "\e[1;34minfo\e[0m   $1\n"; }
