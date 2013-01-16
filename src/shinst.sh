@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# version
+shinst_version="1.1.0"
+
 # defaults
 shinst_defaults_prefix="$HOME"
 
@@ -39,12 +42,16 @@ ghrepo: github repository <user>/<repo> eg.: alternatex/shinst
 
 options:
   -h            show this message        
-  -n <name>     package name
+  -n <name>     local package name
   -p <prefix>   installation path prefix (defaults to ~/)
   -r <url>      GIT repository (eg. https://github.com/alternatex/shinst.git)
   -v            verbose
 
+example: shinst install alternatex/shinst
+
 EOF
+echo "version: $shinst_version"
+exit -1
 }
 
 # helper - setup installation 
@@ -63,10 +70,10 @@ shinst_init(){
   local name="$shinst_name"
 
   # local repository
-  local repo="$shinst_repo" # based on name
+  local repo="$shinst_repo"
 
   # local custom rc
-  local rcfile="$shinst_rcfile" # based on name
+  local rcfile="$shinst_rcfile"
 
   # local prefix
   local prefix="$shinst_prefix"
@@ -134,13 +141,13 @@ shinst_init(){
 
     # update shell configuration
     echo "# $name" >> $shellcfg
-    echo "export PATH=$prefix/.$name/bin:\$PATH" >> $shellcfg
-    
-    # apply
-    $shellbin && . $shellcfg        
+    echo "export PATH=$prefix/.$name/bin:\$PATH" >> $shellcfg       
 
     # run install script
-    cd "$prefix/.$name" && chmod a+x install.sh && ./install.sh && cd -
+    cd "$installdir" && chmod a+x install.sh && ./install.sh && cd -
+
+    # apply
+    $shellbin && . $shellcfg 
 
   # handle action - update
   elif [ "$action" = "$shinst_action_update" ]; then
@@ -151,11 +158,17 @@ shinst_init(){
   # handle action - remove
   elif [ "$action" = "$shinst_action_remove" ]; then      
 
-    # request user input
-    printf "remove $shinst_name? («Y» to edit or any key to cancel) " && read -e REPLY  
+    # check if exists first
+    if [ -d "$installdir" ]; then
 
-    # process deletion or abort
-    ([ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]) && rm -rf "$installdir" && echo "removed $installdir"
+      # request user input
+      printf "remove $shinst_name? («Y» to edit or any key to cancel) " && read -e REPLY  
+
+      # process deletion or abort
+      ([ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]) && rm -rf "$installdir" && echo "removed $installdir"
+    else 
+      shinst_error "$shinst_name not found"
+    fi
   fi
 }
 
@@ -170,8 +183,21 @@ shinst_defaults(){
   if [[ -z $shinst_repo ]];   then shinst_repo=; fi
   if [[ -z $shinst_prefix ]]; then shinst_prefix="$HOME"; fi
   
-  # bogus
-  action=`echo $shinst_action | sed -n "s/[\-].*//p" | wc -c`
+  # no args
+  if [[ -z "$shinst_action" ]]
+    then
+    shinst_usage
+  fi
+
+  # detect option only
+  tmp_option=`echo $shinst_action | sed -n "s/[-].*//p" | wc -c`
+
+  # switch mode
+  if [[ "$tmp_option" -gt "0" ]]; then
+    shinst_usage
+  fi
+
+  action=`echo $shinst_action | sed -n "s/[-].*//p" | wc -c`  
 
   # validate action [insert, update, remove]
   if [[ -z "$shinst_action" ]] && [[ "$shinst_action" != "$shinst_action_install" ]] && [[ "$shinst_action" != "$shinst_action_update" ]] && [[ "$shinst_action" != "$shinst_action_remove" ]]; 
@@ -186,7 +212,6 @@ shinst_defaults(){
       # ...
       shinst_error "unknown action '$shinst_action'"
       shinst_usage
-      exit -1
     fi     
   fi
 
@@ -195,14 +220,21 @@ shinst_defaults(){
     then
 
     # build github url
-    shinst_ghrepo "$shinst_ghrepo"
-   
+    shinst_repo="https://github.com/${shinst_ghrepo}.git"; 
+
     # check name
     if [[ -z "$shinst_name" ]] 
       then 
+  
+      # extract name from ghrepo 
+      tmp_len=`echo ${#shinst_ghrepo}`
+      tmp_len=$((tmp_len-separator))
+
+      # if name not set only » verbose *
+      shinst_name=${shinst_ghrepo:($separator):($tmp_len)}
       
-      # ...
-      shinst_name="$(echo name)"
+      # verbose
+      shinst_verbose "extract name from repository: ${shinst_ghrepo} » ${shinst_name}"      
     fi
   else 
 
@@ -222,7 +254,6 @@ shinst_defaults(){
         # ...
         shinst_error "required option 'name' not set"
         shinst_usage
-        exit -1
       fi        
     fi    
 
@@ -239,7 +270,6 @@ shinst_defaults(){
         # ...
         shinst_error "required option 'repo' not set"
         shinst_usage
-        exit -1
       fi      
     fi        
   fi
@@ -258,19 +288,13 @@ shinst_defaults(){
 }
 
 # debug utility
-shinst_verbose(){ if [[ $shinst_verbose ]]; then printf "\e[1;34mdebug\e[0m  $1\n"; fi }
+shinst_verbose(){ if [[ $shinst_verbose ]]; then printf "\e[1;34mdebug\e[0m $1\n"; fi }
 
 # info utility
-shinst_info(){ printf "\e[1;34minfo\e[0m   $1\n"; }
+shinst_info(){ printf "\e[1;34minfo\e[0m  $1\n"; }
 
 # error utility
-shinst_error(){ printf "\e[1;31merror\e[0m   $1\n\n"; }
-
-# build github repo url (TODO: fix global reference)
-shinst_ghrepo(){ shinst_repo="https://github.com/${1}.git"; }
-
-# check installation requirements (TODO: implement)
-shinst_check(){ return 1; }
+shinst_error(){ printf "\e[1;31merror\e[0m $1\n\n"; }
 
 # determine separator pos/existance
 separator=`echo $shinst_ghrepo | sed -n "s/[/].*//p" | wc -c`
@@ -294,7 +318,6 @@ do
     # show help
     h) 
       shinst_usage
-      exit 1
       ;; 
 
     # package name
@@ -320,7 +343,6 @@ do
     # unknown option
     ?)
       shinst_usage
-      exit
       ;;
   esac
 done

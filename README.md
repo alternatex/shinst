@@ -26,24 +26,26 @@ Usage
 -------------
 
 ```shell
-$ shinst install -h
+$ shinst -h
 
-usage: 	shinst <action> <ghrepo> [options]
+usage:  shinst <action> <ghrepo> [options]
         shinst <action> <ghrepo>  -n <name> [options]
         shinst <action> -n <name> -r <repo> [options]
 
 action: install, update, remove
 
-ghrepo: github repository <user>/<repo> eg. alternatex/tunnelx
+ghrepo: github repository <user>/<repo> eg.: alternatex/shinst
 
 options:
   -h            show this message        
-  -n <name>     package name
-  -p <prefix>   installation path prefix (eg. ~/)
-  -r <url>      GIT repository (eg. https://github.com/alternatex/tunnelx.git)
+  -n <name>     local package name
+  -p <prefix>   installation path prefix (defaults to ~/)
+  -r <url>      GIT repository (eg. https://github.com/alternatex/shinst.git)
   -v            verbose
 
-example: shinst install alternatex/tunnelx
+example: shinst install alternatex/shinst
+
+version: 1.1.0
 
 ```
 
