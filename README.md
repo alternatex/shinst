@@ -45,7 +45,7 @@ options:
 
 example: shinst install alternatex/shinst
 
-version: 1.1.0
+version: 1.2.0
 
 ```
 
@@ -53,12 +53,23 @@ Specification
 -------------
 ...
 
+Changelog
+-------------
+**1.1.0:**<br/>
+* determine package name based on repository if not set
+**1.2.0:**<br/>
+* added self-updater
+
 Roadmap
 -------------
-- self-update
+- self-updater
+- externalize messages
 - custom *rc-file inject into bash configuration once (w/existance check & cleanup)
 - custom packages
 - custom directory prefix for packages installed w/shinst (collect binaries w/ln)
+- modules support
+- configuration (using bazinga module)
+- batch processing (update packages)
 - ... *
 
 License

@@ -9,7 +9,7 @@ then
   
   # do nothing *
   printf "\e[32mshinst is installed.\e[0m   $1\n"
-    exit 1
+  exit 1
 else
 
   # fetch *
@@ -20,6 +20,9 @@ else
 
   # verbose
   ./shinst.sh
+
+  # ...
+  printf "\e[32mshinst successfully installed.\e[0m   $1\n"
 
   # cleanup
   rm -rf shinst.sh

@@ -1,7 +1,13 @@
 #!/bin/bash
 
+# general
+SHINST=~/.shinst 
+
 # version
-shinst_version="1.1.0"
+shinst_version="1.2.0"
+
+# auto-update
+shinst_auto_update="true"
 
 # defaults
 shinst_defaults_prefix="$HOME"
@@ -28,6 +34,10 @@ shinst_ghrepo="$2"
 
 # formatting helpers 
 color_off='\e[0m'; black='\e[0;30m'; red='\e[0;31m'; green='\e[0;32m'; yellow='\e[0;33m'; blue='\e[0;34m'; purple='\e[0;35m'; cyan='\e[0;36m'; white='\e[0;37m'; bblack='\e[1;30m'; bred='\e[1;31m'; bgreen='\e[1;32m'; byellow='\e[1;33m'; bblue='\e[1;34m'; bpurple='\e[1;35m'; bcyan='\e[1;36m'; bwhite='\e[1;37m';       
+
+# exit codes
+E_NOARGS=10
+E_NOTFOUND=20
 
 # describe usage
 shinst_usage(){
@@ -169,6 +179,10 @@ shinst_init(){
     else 
       shinst_error "$shinst_name not found"
     fi
+
+  # unknown action
+  else
+    shinst_error "unknown action '$shinst_action'"
   fi
 }
 
@@ -197,22 +211,13 @@ shinst_defaults(){
     shinst_usage
   fi
 
-  action=`echo $shinst_action | sed -n "s/[-].*//p" | wc -c`  
-
-  # validate action [insert, update, remove]
-  if [[ -z "$shinst_action" ]] && [[ "$shinst_action" != "$shinst_action_install" ]] && [[ "$shinst_action" != "$shinst_action_update" ]] && [[ "$shinst_action" != "$shinst_action_remove" ]]; 
+  # validate action (install|update|remove)
+  if [[ "$shinst_action" != "$shinst_action_install" ]] && [[ "$shinst_action" != "$shinst_action_update" ]] && [[ "$shinst_action" != "$shinst_action_remove" ]]; 
     then
-    
-    # request user input
-    printf "\e[33maction (install|update|remove): \e[0m" && read -p "" && shinst_action="$REPLY"
 
-    # validate action again
-    if [[ "$action" -lt "1" ]] && [[ "$shinst_action" != "$shinst_action_install" ]] && [[ "$shinst_action" != "$shinst_action_update" ]] && [[ "$shinst_action" != "$shinst_action_remove" ]]; then
-      
       # ...
-      shinst_error "unknown action '$shinst_action'"
-      shinst_usage
-    fi     
+      shinst_error "unknown action: ${shinst_action}"
+      shinst_usage      
   fi
 
   # switch mode
@@ -287,6 +292,37 @@ shinst_defaults(){
   shinst_info "directory:   ${shinst_prefix}/.${shinst_name}"  
 }
 
+# validation helpers
+shinst_sanitize_input(){
+ 
+  # ...
+  string=string_value
+
+  # ...
+  string="${string//[^a-zA-Z0-9 ]/}"
+}
+
+# ... params: exit (defaults to false)
+shinst_validate_action(){
+
+  # ...
+  if [[ "$shinst_action" != "$shinst_action_install" ]] && [[ "$shinst_action" != "$shinst_action_update" ]] && [[ "$shinst_action" != "$shinst_action_remove" ]]; 
+    then
+
+    # exit if requested
+    if [[ "$1" = "true" ]]; then
+
+      # ...
+      shinst_error "unknown action: ${shinst_action}"
+      shinst_usage
+    fi
+  else 
+
+    # ...
+    return true
+  fi  
+}
+
 # debug utility
 shinst_verbose(){ if [[ $shinst_verbose ]]; then printf "\e[1;34mdebug\e[0m $1\n"; fi }
 
@@ -295,6 +331,14 @@ shinst_info(){ printf "\e[1;34minfo\e[0m  $1\n"; }
 
 # error utility
 shinst_error(){ printf "\e[1;31merror\e[0m $1\n\n"; }
+
+# check for updates
+if [ "$shinst_auto_update" = "true" ]
+then
+  
+  # run upgrade check
+  /usr/bin/env SHINST=$SHINST /bin/sh $SHINST/src/tools/check_for_upgrade.sh
+fi
 
 # determine separator pos/existance
 separator=`echo $shinst_ghrepo | sed -n "s/[/].*//p" | wc -c`
