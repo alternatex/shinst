@@ -55,9 +55,11 @@ Specification
 
 Roadmap
 -------------
-- determine package by ghrepo shortcut
-- local packages 
-- custom directory / prefix default for installed packages (collect binaries)
+- self-update
+- custom *rc-file inject into bash configuration once (w/existance check)
+- custom *rc-file cleanup
+- custom packages
+- custom directory prefix for packages installed w/shinst (collect binaries w/ln)
 - ... *
 
 License

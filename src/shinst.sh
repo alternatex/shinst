@@ -19,7 +19,7 @@ shinst_rcfile=
 shinst_prefix=
 shinst_verbose=
 
-# arguments index (as action is mandatory start at 1)
+# arguments index
 shinst_shift=1
 
 # pre-fetch params (processing to come)
