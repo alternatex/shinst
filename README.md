@@ -57,12 +57,12 @@ Changelog
 -------------
 **1.1.0:**<br/>
 * determine package name based on repository if not set
+
 **1.2.0:**<br/>
 * added self-updater
 
 Roadmap
 -------------
-- self-updater
 - externalize messages
 - custom *rc-file inject into bash configuration once (w/existance check & cleanup)
 - custom packages
