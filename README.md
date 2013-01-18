@@ -30,20 +30,22 @@ $ shinst -h
 
 usage:  shinst <action> <ghrepo> [options]
         shinst <action> <ghrepo>  -n <name> [options]
-        shinst <action> -n <name> -r <repo> [options]
+        shinst <action> -r <repo> -n <name> [options]
 
 action: install, update, remove
 
-ghrepo: github repository <user>/<repo> eg.: alternatex/shinst
+ghrepo: github repository <user>/<repo> e.g. alternatex/shinst
 
 options:
   -h            show this message        
   -n <name>     local package name
   -p <prefix>   installation path prefix (defaults to ~/)
-  -r <url>      GIT repository (eg. https://github.com/alternatex/shinst.git)
+  -r <url>      GIT repository (e.g. https://github.com/alternatex/shinst.git)
   -v            verbose
 
-example: shinst install alternatex/shinst
+examples: shinst install alternatex/shinst
+          shinst install alternatex/shinst -n shinst-custom
+          shinst install -r https://github.com/alternatex/shinst.git -n shinst-custom
 
 version: 1.2.0
 
@@ -64,12 +66,16 @@ Changelog
 Roadmap
 -------------
 - externalize messages
+- zsh/oh-my-zsh plugin
+- /var/log/shinst/history.log
 - custom *rc-file inject into bash configuration once (w/existance check & cleanup)
-- custom packages
-- custom directory prefix for packages installed w/shinst (collect binaries w/ln)
+- manifest/custom directory prefix for packages installed w/shinst (collect binaries w/ln)
+- dependency management
 - modules support
 - configuration (using bazinga module)
 - batch processing (update packages)
+- improve installer/uninstaller
+- track "projects" (relates to update packages)
 - ... *
 
 License

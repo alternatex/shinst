@@ -10,7 +10,9 @@ shinst_version="1.2.0"
 shinst_auto_update="true"
 
 # defaults
-shinst_defaults_prefix="$HOME"
+shinst_dir_global="true"
+shinst_dir_home="$HOME"
+shinst_dir_modules="${shinst_dir_home}/.shinst_modules"
 
 # helpers
 shinst_opts="hvn:p:r:"
@@ -44,20 +46,22 @@ shinst_usage(){
 cat << EOF
 usage:  shinst <action> <ghrepo> [options]
         shinst <action> <ghrepo>  -n <name> [options]
-        shinst <action> -n <name> -r <repo> [options]
+        shinst <action> -r <repo> -n <name> [options]
 
 action: install, update, remove
 
-ghrepo: github repository <user>/<repo> eg.: alternatex/shinst
+ghrepo: github repository <user>/<repo> e.g. alternatex/shinst
 
 options:
   -h            show this message        
   -n <name>     local package name
   -p <prefix>   installation path prefix (defaults to ~/)
-  -r <url>      GIT repository (eg. https://github.com/alternatex/shinst.git)
+  -r <url>      GIT repository (e.g. https://github.com/alternatex/shinst.git)
   -v            verbose
 
 example: shinst install alternatex/shinst
+         shinst install alternatex/shinst -n shinst-custom
+         shinst install -r https://github.com/alternatex/shinst.git -n shinst-custom
 
 EOF
 echo "version: $shinst_version"
@@ -67,35 +71,17 @@ exit -1
 # helper - setup installation 
 shinst_init(){
 
-  # info
-  shinst_info "initializing"
-  
   # go home
   cd ~
 
-  # local action 
-  local action="$shinst_action"
-
-  # local configuration 
-  local name="$shinst_name"
-
-  # local repository
-  local repo="$shinst_repo"
-
-  # local custom rc
-  local rcfile="$shinst_rcfile"
-
-  # local prefix
-  local prefix="$shinst_prefix"
-
-  # flag installed
-  local installed=false
+  # info
+  shinst_info "initializing"
 
   # helper - install directory
-  installdir=`echo "$prefix/.$name"`
+  installdir=`echo "$shinst_prefix/.$shinst_name"`
 
   # handle action - install
-  if [ "$action" = "$shinst_action_install" ]; then      
+  if [ "$shinst_action" = "$shinst_action_install" ]; then      
   
     # check if exists / remove?
     if [ -d "$installdir" ]; then
@@ -128,7 +114,7 @@ shinst_init(){
     git clone "$repo" "$installdir"
     
     # shell configuration file
-    local shellcfg="$HOME/$rcfile"
+    local shellcfg="$HOME/$shinst_rcfile"
     local shellbin="/bin/bash"
 
     # bash
@@ -150,8 +136,8 @@ shinst_init(){
     fi
 
     # update shell configuration
-    echo "# $name" >> $shellcfg
-    echo "export PATH=$prefix/.$name/bin:\$PATH" >> $shellcfg       
+    echo "# $shinst_name" >> $shellcfg
+    echo "export PATH=$shinst_prefix/.$shinst_name/bin:\$PATH" >> $shellcfg       
 
     # run install script
     cd "$installdir" && chmod a+x install.sh && ./install.sh && cd -
@@ -160,13 +146,13 @@ shinst_init(){
     $shellbin && . $shellcfg 
 
   # handle action - update
-  elif [ "$action" = "$shinst_action_update" ]; then
+  elif [ "$shinst_action" = "$shinst_action_update" ]; then
 
     # update by remote origin
     cd "$installdir" && git pull && cd -
 
   # handle action - remove
-  elif [ "$action" = "$shinst_action_remove" ]; then      
+  elif [ "$shinst_action" = "$shinst_action_remove" ]; then      
 
     # check if exists first
     if [ -d "$installdir" ]; then
@@ -195,7 +181,7 @@ shinst_defaults(){
   # apply defaults
   if [[ -z $shinst_name ]];   then shinst_name=; fi
   if [[ -z $shinst_repo ]];   then shinst_repo=; fi
-  if [[ -z $shinst_prefix ]]; then shinst_prefix="$HOME"; fi
+  if [[ -z $shinst_prefix ]]; then shinst_prefix="$shinst_dir_home"; fi
   
   # no args
   if [[ -z "$shinst_action" ]]
@@ -234,8 +220,6 @@ shinst_defaults(){
       # extract name from ghrepo 
       tmp_len=`echo ${#shinst_ghrepo}`
       tmp_len=$((tmp_len-separator))
-
-      # if name not set only » verbose *
       shinst_name=${shinst_ghrepo:($separator):($tmp_len)}
       
       # verbose

@@ -3,7 +3,7 @@
 # go home
 cd ~
 
-# fresh install?
+# check installation
 if command -v "shinst" &>/dev/null
 then
   
@@ -12,7 +12,7 @@ then
   exit 1
 else
 
-  # fetch *
+  # fetch installer
   wget "https://raw.github.com/alternatex/shinst/master/src/shinst.sh" -O shinst.sh && chmod a+x shinst.sh  
 
   # install self
