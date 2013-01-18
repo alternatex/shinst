@@ -5,5 +5,8 @@
     "type": "git",
     "url": "git@github.com:alternatex/shinst.git"
   },
-  "dependencies": {}
+  "shinst": {
+    "dependencies": {
+    }
+  }  
 }

@@ -20,6 +20,10 @@
       "url": "https://raw.github.com/alternatex/shinst/master/LICENSE"
     }
   ],
-  "engines": {}, 
-  "dependencies": {}
+  "shinst": {
+    "dependencies": {
+      "bazinga": "alternatex/bazinga",
+      "tunnelx": "alternatex/tunnelx"
+    }
+  }  
 }

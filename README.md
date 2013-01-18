@@ -53,7 +53,16 @@ version: 1.2.1
 
 Specification
 -------------
-...
+
+package.json extensions:
+
+```javascript
+  "shinst": {
+    "dependencies": {
+      "alias": "<github:username/repository>"
+    }
+  } 
+```
 
 Changelog
 -------------
@@ -65,12 +74,12 @@ Changelog
 
 Roadmap
 -------------
+- dependency management
 - externalize messages
 - zsh/oh-my-zsh plugin
 - /var/log/shinst/history.log
 - custom *rc-file inject into bash configuration once (w/existance check & cleanup)
 - manifest/custom directory prefix for packages installed w/shinst (collect binaries w/ln)
-- dependency management
 - modules support
 - configuration (using bazinga module)
 - batch processing (update packages)
