@@ -41,11 +41,12 @@ options:
   -n <name>     local package name
   -p <prefix>   installation path prefix (defaults to ~/)
   -r <url>      GIT repository (e.g. https://github.com/alternatex/shinst.git)
+  -s <script>   run this script after clone (defaults to install.sh | use "-" to skip)
   -v            verbose
 
-examples: shinst install alternatex/shinst
-          shinst install alternatex/shinst -n shinst-custom
-          shinst install -r https://github.com/alternatex/shinst.git -n shinst-custom
+example: shinst install alternatex/shinst -s -
+         shinst install alternatex/shinst -n shinst-custom -s -
+         shinst install -r https://github.com/alternatex/shinst.git -n shinst-custom -s -
 
 version: 1.3.0
 
