@@ -89,11 +89,12 @@ Roadmap
 - introduce package.json namespace
 - dependency management
 - externalize messages
-- zsh/oh-my-zsh plugin
+- grunt support
 - /var/log/shinst/history.log
 - manifest/custom directory prefix for packages installed w/shinst (collect binaries w/ln)
 - custom branch support
 - modules support
+- zsh/oh-my-zsh plugin
 - configuration (using bazinga module)
 - batch processing (update packages)
 - improve installer/uninstaller
