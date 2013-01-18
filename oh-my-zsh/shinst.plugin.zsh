@@ -1,1 +1,0 @@
-shinst.plugin.zsh
