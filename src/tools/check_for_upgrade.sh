@@ -33,6 +33,7 @@ shinst_check_for_upgrade(){
 
   # ...
   if [[ -z "$epoch_target" ]]; then
+    
     # Default to old behavior
     epoch_target=13
   fi
@@ -40,10 +41,13 @@ shinst_check_for_upgrade(){
   # ...
   if [ -f ~/.shinst-update ]
   then
+    
     # ...
     . ~/.shinst-update
+
     # ...
     if [[ -z "$LAST_EPOCH" ]]; then
+
       # ...
       shinst_update_cfg && return 0;
     fi
@@ -58,25 +62,31 @@ shinst_check_for_upgrade(){
       # ...
       if [ "$DISABLE_UPDATE_PROMPT" = "true" ]
       then
+
         # ...
         shinst_upgrade
       # ...
       else
+
         # ...
         echo "[Shinst] Would you like to check for updates?"
         echo "Type Y to update Shinst: \c"
         read line
+
         # ...
         if [ "$line" = Y ] || [ "$line" = y ]; then
+
           # ...
           shinst_upgrade
         else
+
           # ...
           shinst_update_cfg
         fi
       fi
     fi
   else
+
     # create the shinst file
     shinst_update_cfg
   fi

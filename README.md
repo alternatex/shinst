@@ -16,11 +16,11 @@ You can install this via the command line with either `curl` or `wget`.
 
 via `curl`
 
-`curl -L https://github.com/alternatex/shinst/raw/master/install.sh | sh`
+`bash -s stable < <(curl -s https://raw.github.com/alternatex/shinst/master/install.sh)`
 
 via `wget`
 
-`wget --no-check-certificate https://github.com/alternatex/shinst/raw/master/install.sh -O - | sh`
+`bash -s stable < <(wget https://raw.github.com/alternatex/shinst/master/install.sh -O -)`
 
 Usage
 -------------
@@ -54,13 +54,13 @@ version: 1.3.0
 Specification
 -------------
 
-.shinstrc:
+**.shinstrc**
 
 ```shell
 export SHINST=~/.shinst
 ```
 
-package.json:
+**package.json**
 
 ```javascript
   "shinst": {
@@ -78,21 +78,21 @@ Changelog
 **1.2.0:**<br/>
 * added self-updater
 
-**1.2.1:**<br/>
-* hotfix empty repository reference
-
 **1.3.0:**<br/>
 * added custom configuration .shinstrc
-* added package.json shinst namespace
+* modified feature detection
+* improved installation routine
 
 Roadmap
 -------------
+- custom *rc-file existance check and cleanup
+- introduce package.json namespace
 - dependency management
 - externalize messages
 - zsh/oh-my-zsh plugin
 - /var/log/shinst/history.log
-- custom *rc-file inject into bash configuration once (w/existance check & cleanup)
 - manifest/custom directory prefix for packages installed w/shinst (collect binaries w/ln)
+- custom branch support
 - modules support
 - configuration (using bazinga module)
 - batch processing (update packages)

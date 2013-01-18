@@ -10,13 +10,14 @@ shinst_version="1.3.0"
 shinst_auto_update="true"
 
 # defaults
-shinst_cfg=~/.shinst/.shinstrc
-shinst_dir_global="true"
-shinst_dir_home="$HOME"
-shinst_dir_modules="${shinst_dir_home}/.shinst_modules"
+shinst_defaults_conf=~/.shinst/.shinstrc
+shinst_defaults_global="true"
+shinst_defaults_home="$HOME"
+shinst_defaults_script="install.sh"
+shinst_defaults_modules="${shinst_defaults_home}/.shinst_modules"
 
 # helpers
-shinst_opts="hvn:p:r:"
+shinst_opts="hvn:p:r:s:"
 shinst_action_install="install"
 shinst_action_update="update"
 shinst_action_remove="remove"
@@ -27,6 +28,7 @@ shinst_repo=
 shinst_rcfile=
 shinst_prefix=
 shinst_verbose=
+shinst_script=
 
 # arguments index
 shinst_shift=1
@@ -58,11 +60,12 @@ options:
   -n <name>     local package name
   -p <prefix>   installation path prefix (defaults to ~/)
   -r <url>      GIT repository (e.g. https://github.com/alternatex/shinst.git)
+  -s <script>   run this script after clone (defaults to install.sh | use "-" to skip)
   -v            verbose
 
-example: shinst install alternatex/shinst
-         shinst install alternatex/shinst -n shinst-custom
-         shinst install -r https://github.com/alternatex/shinst.git -n shinst-custom
+example: shinst install alternatex/shinst -s -
+         shinst install alternatex/shinst -n shinst-custom -s -
+         shinst install -r https://github.com/alternatex/shinst.git -n shinst-custom -s -
 
 EOF
 echo "version: $shinst_version"
@@ -131,8 +134,28 @@ shinst_init(){
     echo "# $shinst_name" >> "$HOME/.shinstrc" 
     echo "export PATH=$shinst_prefix/.$shinst_name/bin:\$PATH" >> "$HOME/.shinstrc"
 
-    # run install script
-    cd "$installdir" && chmod a+x install.sh && ./install.sh && cd -
+    # store cwd
+    current_path=`pwd` 
+
+    # ...
+    cd "$installdir" 
+
+    # skip installer?
+    if [[ "$shinst_script" == "-" ]]; then
+
+      # talk
+      shinst_verbose "skipping installer"
+
+    # script exists?
+    elif [[ -a "$shinst_script" ]]; then
+
+      # run installer
+      chmod a+x install.sh && ./install.sh
+    fi
+
+    # restore cwd
+    cd "$current_path"
+    
 
     # apply
     $SHELL && . $shellcfg 
@@ -173,7 +196,8 @@ shinst_defaults(){
   # apply defaults
   if [[ -z $shinst_name ]];   then shinst_name=; fi
   if [[ -z $shinst_repo ]];   then shinst_repo=; fi
-  if [[ -z $shinst_prefix ]]; then shinst_prefix="$shinst_dir_home"; fi
+  if [[ -z $shinst_prefix ]]; then shinst_prefix="$shinst_defaults_home"; fi
+  if [[ -z $shinst_script ]]; then shinst_script="$shinst_defaults_script"; fi
   
   # no args
   if [[ -z "$shinst_action" ]]
@@ -266,6 +290,7 @@ shinst_defaults(){
   shinst_info "repo:        ${shinst_repo}"
   shinst_info "prefix:      ${shinst_prefix}"
   shinst_info "directory:   ${shinst_prefix}/.${shinst_name}"  
+  shinst_info "script:      ${shinst_script}"
 }
 
 # validation helpers
@@ -312,8 +337,11 @@ shinst_error(){ printf "\e[1;31merror\e[0m $1\n\n"; }
 if [ "$shinst_auto_update" = "true" ]
 then
   
-  # run upgrade check
-  /usr/bin/env SHINST=$SHINST /bin/sh $SHINST/src/tools/check_for_upgrade.sh
+  if [[ -a "$SHINST/src/tools/check_for_upgrade.sh"   ]]; then
+
+    # run upgrade check
+    /usr/bin/env SHINST=$SHINST /bin/sh $SHINST/src/tools/check_for_upgrade.sh
+  fi
 fi
 
 # determine separator pos/existance
@@ -353,6 +381,11 @@ do
     # repository
     r) 
       shinst_repo=$OPTARG
+      ;; 
+    
+    # script
+    s) 
+      shinst_script=$OPTARG
       ;; 
     
     # show infos       

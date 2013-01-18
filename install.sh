@@ -4,8 +4,8 @@
 cd ~
 
 # check installation
-if command -v "shinst" &>/dev/null
-then
+if [[ -a "$(which shinst)" ]]
+  then 
   
   # do nothing *
   printf "\e[32mshinst is installed.\e[0m   $1\n"
@@ -17,9 +17,6 @@ else
 
   # default configuration
   wget "https://raw.github.com/alternatex/shinst/master/.shinstrc" -O ~/.shinstrc
-
-  # install self
-  ./shinst.sh "install" "alternatex/shinst"
 
   # shell configuration file
   local shellcfg="$HOME/.bashrc"
@@ -35,8 +32,15 @@ else
   fi
 
   # update shell configuration
+  printf "\e[32mupdating shell configuration $shellcfg..\e[0m   $1\n"
+
+  # ...
   echo "# shinst" >> $shellcfg
-  echo "source ~/.shinstrc" >> $shellcfg       
+  echo "export PATH=~/.shinst/bin:$PATH" >> $shellcfg       
+  echo "source $HOME/.shinstrc" >> $shellcfg       
+
+  # install self
+  ./shinst.sh "install" "alternatex/shinst" -s -
 
   # verbose
   ./shinst.sh
