@@ -47,14 +47,20 @@ examples: shinst install alternatex/shinst
           shinst install alternatex/shinst -n shinst-custom
           shinst install -r https://github.com/alternatex/shinst.git -n shinst-custom
 
-version: 1.2.1
+version: 1.3.0
 
 ```
 
 Specification
 -------------
 
-package.json extensions:
+.shinstrc:
+
+```shell
+export SHINST=~/.shinst
+```
+
+package.json:
 
 ```javascript
   "shinst": {
@@ -71,6 +77,13 @@ Changelog
 
 **1.2.0:**<br/>
 * added self-updater
+
+**1.2.1:**<br/>
+* hotfix empty repository reference
+
+**1.3.0:**<br/>
+* added custom configuration .shinstrc
+* added package.json shinst namespace
 
 Roadmap
 -------------

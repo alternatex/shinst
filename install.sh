@@ -15,8 +15,28 @@ else
   # fetch installer
   wget "https://raw.github.com/alternatex/shinst/master/src/shinst.sh" -O shinst.sh && chmod a+x shinst.sh  
 
+  # default configuration
+  wget "https://raw.github.com/alternatex/shinst/master/.shinstrc" -O ~/.shinstrc
+
   # install self
   ./shinst.sh "install" "alternatex/shinst"
+
+  # shell configuration file
+  local shellcfg="$HOME/.bashrc"
+
+  # bash
+  if [[ "$SHELL" == "/bin/bash" ]]; then 
+    shellcfg="$HOME/.bashrc"
+  fi
+
+  # zsh
+  if [[ "$SHELL" == "/bin/zsh" ]]; then 
+    shellcfg="$HOME/.zshrc"
+  fi
+
+  # update shell configuration
+  echo "# shinst" >> $shellcfg
+  echo "source ~/.shinstrc" >> $shellcfg       
 
   # verbose
   ./shinst.sh

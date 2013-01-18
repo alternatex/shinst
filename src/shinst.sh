@@ -4,12 +4,13 @@
 SHINST=~/.shinst 
 
 # version
-shinst_version="1.2.1"
+shinst_version="1.3.0"
 
 # auto-update
 shinst_auto_update="true"
 
 # defaults
+shinst_cfg=~/.shinst/.shinstrc
 shinst_dir_global="true"
 shinst_dir_home="$HOME"
 shinst_dir_modules="${shinst_dir_home}/.shinst_modules"
@@ -115,35 +116,26 @@ shinst_init(){
     
     # shell configuration file
     local shellcfg="$HOME/$shinst_rcfile"
-    local shellbin="/bin/bash"
 
     # bash
-    if [ -f ~/.bashrc ]; then 
-            shellcfg="$HOME/.bashrc"
-            shellbin="/bin/bash"
+    if [[ "$SHELL" == "/bin/bash" ]]; then 
+      shellcfg="$HOME/.bashrc"
     fi
 
     # zsh
-    if [ -f ~/.zshrc ]; then 
-            shellcfg="$HOME/.zshrc"
-            shellbin="/bin/zsh"
-    fi
-
-    # ?
-    if [ -f ~/.profile ]; then 
-            shellcfg="$HOME/.profile"
-            shellbin="/bin/bash"
+    if [[ "$SHELL" == "/bin/zsh" ]]; then 
+      shellcfg="$HOME/.zshrc"
     fi
 
     # update shell configuration
-    echo "# $shinst_name" >> $shellcfg
-    echo "export PATH=$shinst_prefix/.$shinst_name/bin:\$PATH" >> $shellcfg       
+    echo "# $shinst_name" >> "$HOME/.shinstrc" 
+    echo "export PATH=$shinst_prefix/.$shinst_name/bin:\$PATH" >> "$HOME/.shinstrc"
 
     # run install script
     cd "$installdir" && chmod a+x install.sh && ./install.sh && cd -
 
     # apply
-    $shellbin && . $shellcfg 
+    $SHELL && . $shellcfg 
 
   # handle action - update
   elif [ "$shinst_action" = "$shinst_action_update" ]; then
