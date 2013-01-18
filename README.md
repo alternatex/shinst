@@ -47,7 +47,7 @@ examples: shinst install alternatex/shinst
           shinst install alternatex/shinst -n shinst-custom
           shinst install -r https://github.com/alternatex/shinst.git -n shinst-custom
 
-version: 1.2.0
+version: 1.2.1
 
 ```
 
@@ -58,7 +58,7 @@ Specification
 Changelog
 -------------
 **1.1.0:**<br/>
-* determine package name based on repository if not set
+* determine package name by ghrepo
 
 **1.2.0:**<br/>
 * added self-updater

@@ -4,7 +4,7 @@
 SHINST=~/.shinst 
 
 # version
-shinst_version="1.2.0"
+shinst_version="1.2.1"
 
 # auto-update
 shinst_auto_update="true"
@@ -111,7 +111,7 @@ shinst_init(){
     fi
 
     # clone repo
-    git clone "$repo" "$installdir"
+    git clone "$shinst_repo" "$installdir"
     
     # shell configuration file
     local shellcfg="$HOME/$shinst_rcfile"
