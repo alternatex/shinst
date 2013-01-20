@@ -8,7 +8,7 @@ Installation
 
 ### Prerequisites
 
-Unix-OS
+Unix OS
 
 ### Setup
 
@@ -86,8 +86,7 @@ Changelog
 
 Roadmap
 -------------
-- custom *rc-file existance check and cleanup
-- introduce package.json namespace
+- apply package.json namespace
 - dependency management
 - externalize messages
 - grunt support

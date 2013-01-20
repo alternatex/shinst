@@ -150,7 +150,7 @@ shinst_init(){
     elif [[ -a "$shinst_script" ]]; then
 
       # run installer
-      chmod a+x install.sh && ./install.sh
+      chmod a+x $shinst_script && ./$shinst_script
     fi
 
     # restore cwd
