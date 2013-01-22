@@ -93,14 +93,14 @@ Roadmap
 - modules  
   - basic logger /var/log/shinst/history.log
   - configuration 
-  - growl messages osx (see .shinstrc user/system variable) / extend l18n messaging w/hooks (module core support?)
+  - growl messages optional prerequisite (http://growl.info) » see .shinstrc user/system variable / extend l18n messaging w/hooks (module core support?)
   - extend specs for w/ postinstallation dependencies:
       - configuration mappings
       - language (integrate existing l18n stuff)
   - module spec extension/rework » zsh/oh-my-zsh
   - additional wrappers
-    - protocol: http/s, ssh/scp, ..
-    - vcs: hg, svn, ..
+      - protocol: http/s, ssh/scp, ..
+      - vcs: hg, svn, ..
   - vramsteg  
   - grunt 
 - batch processing (update packages)
