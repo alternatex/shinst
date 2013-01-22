@@ -66,7 +66,7 @@ export SHINST=~/.shinst
 ```javascript
   "shinst": {
     "dependencies": {
-      "alias": "<github:username/repository>"
+      "alias": "<github:username/repository>>=${tagname}"
     }
   } 
 ```
@@ -86,19 +86,27 @@ Changelog
 
 Roadmap
 -------------
-- apply package.json namespace
-- dependency management
-- externalize messages
-- grunt support
-- /var/log/shinst/history.log
-- manifest/custom directory prefix for packages installed w/shinst (collect binaries w/ln)
-- custom branch support
+- dependency management (specs implementation 1 «o» n)
+- system language detection / externalize messages
 - modules support
-- zsh/oh-my-zsh plugin
-- configuration (using bazinga module)
+- custom branch support / starter version (extend .shinstrc » see growl grouping approach)
+- modules  
+  - basic logger /var/log/shinst/history.log
+  - configuration 
+  - growl messages osx (see .shinstrc user/system variable) / extend l18n messaging w/hooks (module core support?)
+  - extend specs for w/ postinstallation dependencies:
+      - configuration mappings
+      - language (integrate existing l18n stuff)
+  - module spec extension/rework » zsh/oh-my-zsh
+  - additional wrappers
+    - protocol: http/s, ssh/scp, ..
+    - vcs: hg, svn, ..
+  - vramsteg  
+  - grunt 
 - batch processing (update packages)
 - improve installer/uninstaller
 - track "projects" (relates to update packages)
+- custom directory support (.shinstrc) for pkg installation w/ NPM approach (w/add. defaults: global/local)
 - ... *
 
 License

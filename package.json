@@ -21,6 +21,15 @@
     }
   ],
   "shinst": {
-    "dependencies": {}
+    "provides": {
+      "bazinga": "alternatex/bazinga"
+    },
+    "requires": {
+      "shinst-install": "https://raw.github.com/alternatex/shinst/install.sh"
+    },
+    "binaries/to/be/grunted": {
+      "name": { "src": "/path/to/file", "dest": "/path/to/file" },
+      "name": { "src": "/path/to/file", "dest": "/path/to/file" }
+    }
   }  
 }

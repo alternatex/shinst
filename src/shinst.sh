@@ -131,8 +131,10 @@ shinst_init(){
     fi
 
     # update shell configuration
-    echo "# $shinst_name" >> "$HOME/.shinstrc" 
+    echo "# $shinst_name" >> "$HOME/.shinstrc"         
     echo "export PATH=$shinst_prefix/.$shinst_name/bin:\$PATH" >> "$HOME/.shinstrc"
+    echo "# $shinst_name - growl messaging" >> "$HOME/.shinstrc"         
+    echo "export GROWL_ID_$(echo $shinst_name | tr '[a-z]' '[A-Z]')=\"$shinst_name" >> "$HOME/.shinstrc\""
 
     # store cwd
     current_path=`pwd` 
