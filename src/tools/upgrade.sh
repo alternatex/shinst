@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # ...
 current_path=`pwd`
 

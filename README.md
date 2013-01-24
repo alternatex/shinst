@@ -16,11 +16,11 @@ You can install this via the command line with either `curl` or `wget`.
 
 via `curl`
 
-`bash -s stable < <(curl -s https://raw.github.com/alternatex/shinst/master/install.sh)`
+`bash -s stable < <(curl -s https://raw.github.com/alternatex/shinst/master/src/tools/install.sh)`
 
 via `wget`
 
-`bash -s stable < <(wget https://raw.github.com/alternatex/shinst/master/install.sh -O -)`
+`bash -s stable < <(wget https://raw.github.com/alternatex/shinst/master/src/tools/install.sh -O -)`
 
 Usage
 -------------
@@ -37,11 +37,11 @@ action: install, update, remove
 ghrepo: github repository <user>/<repo> e.g. alternatex/shinst
 
 options:
-  -h            show this message        
+  -h            shows this message        
   -n <name>     local package name
   -p <prefix>   installation path prefix (defaults to ~/)
   -r <url>      GIT repository (e.g. https://github.com/alternatex/shinst.git)
-  -s <script>   run this script after clone (defaults to install.sh | use "-" to skip)
+  -s <script>   script to run after clone (defaults to install.sh | use "-" to skip)
   -v            verbose
 
 example: shinst install alternatex/shinst -s -
@@ -64,12 +64,29 @@ export SHINST=~/.shinst
 **package.json**
 
 ```javascript
-  "shinst": {
-    "dependencies": {
-      "alias": "<github:username/repository>>=${tagname}"
-    }
-  } 
+"shinst": {
+  "dependencies": {
+    "<github:username/repository>": ">=$<version-tag>"
+  }
+} 
 ```
+
+**grunt.js**
+
+```javascript
+grunt.initConfig({
+  cp: {
+    identifier: {
+      src:  '/s/r/c',
+      dest: '/d/e/s/t'
+    }
+  }
+});
+```
+
+Integration
+-----------
+...
 
 Changelog
 -------------
@@ -86,27 +103,33 @@ Changelog
 
 Roadmap
 -------------
-- dependency management (specs implementation 1 «o» n)
-- system language detection / externalize messages
-- modules support
+- general web based installer (install.sh?user/repo » shinst.json)
+- basic dependency management
 - custom branch support / starter version (extend .shinstrc » see growl grouping approach)
-- modules  
-  - basic logger /var/log/shinst/history.log
+- system language detection / l18N / externalize messages / .po *
+- modules support
   - configuration 
-  - growl messages optional prerequisite (http://growl.info) » see .shinstrc user/system variable / extend l18n messaging w/hooks (module core support?)
-  - extend specs for w/ postinstallation dependencies:
-      - configuration mappings
-      - language (integrate existing l18n stuff)
-  - module spec extension/rework » zsh/oh-my-zsh
+  - basic logger
+  - include major management systems 
+      - npm
+      - bower
+      - volo
+      - composer      
   - additional wrappers
       - protocol: http/s, ssh/scp, ..
       - vcs: hg, svn, ..
-  - vramsteg  
   - grunt 
+  - vramsteg  
+  - growl messages 
+  - extend specs for w/ postinstallation dependencies:
+      - configuration mappings
+      - language (integrate existing l18n stuff)
+  - module spec extension/rework » zsh/oh-my-zsh  
 - batch processing (update packages)
 - improve installer/uninstaller
 - track "projects" (relates to update packages)
 - custom directory support (.shinstrc) for pkg installation w/ NPM approach (w/add. defaults: global/local)
+- move test repository into core
 - ... *
 
 License
