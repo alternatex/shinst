@@ -98,32 +98,6 @@ grunt.initConfig({
 });
 ```
 
-Repository Manager
-------------------
-
-### Server
-
-...
-
-### Client
-
-**Supported Browsers:** Chrome,...
-
-local/remote handling - auth? \*
-
-**Installation:**
-
-```javascript
-navigator.registerProtocolHandler(
-    'web+shinst', 'http://localhost:3232/shinst?q=%s', 'Shinst Web Installer');
-``` 
-
-**Usage:**
-
-```html
-<a href="web+shinst:alternatex%2Fshinst">Install through "Shinst Web Installer"</a>
-```
-
 Integration
 -----------
 ...
