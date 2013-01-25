@@ -49,7 +49,7 @@ ghrepo="$2"
 
 # repository references
 repo_github="https://github.com"
-repo_branch="master"
+repo_branch="master" # yes, not 'stable'. maybe checking avail branches and then choosing stable or master would be nice ;-)
 
 # sanitization / validation
 check=${check:-"false"}
@@ -154,7 +154,7 @@ init(){
     local shellcfg="$HOME/.bashrc"
 
     # zsh
-    if [[ "$SHELL" == "/bin/zsh" ]]; then 
+    if [[ ! -a "~/.zshrc" ]]; then # if [[ "$SHELL" == "/bin/zsh" ]]; then     
       shellcfg="$HOME/.zshrc"
     fi
 
@@ -415,7 +415,7 @@ do
       ;; 
 
     # branch
-    r) 
+    b) 
       branch=$OPTARG
       ;;       
     
@@ -450,3 +450,6 @@ defaults
 
 # run shinst
 init
+
+# ...
+#exit

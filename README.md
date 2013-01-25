@@ -3,6 +3,8 @@ Shinst
 
 Superficial - yet GIT-ortiented - package management utility
 
+The real cuties npm, bower, volo, composer on the back, soon, maybe, not. 
+
 Installation
 ------------
 
@@ -41,12 +43,13 @@ options:
   -n <name>     local package name
   -p <prefix>   installation path prefix (defaults to ~/)
   -r <url>      GIT repository (e.g. https://github.com/alternatex/shinst.git)
+  -b <branch>   branch to checkout (defaults to master)
   -s <script>   script to run after clone (defaults to install.sh | use "-" to skip)
   -v            verbose
 
-example: shinst install alternatex/shinst -s -
-         shinst install alternatex/shinst -n shinst-custom -s -
-         shinst install -r https://github.com/alternatex/shinst.git -n shinst-custom -s -
+example: shinst install alternatex/shinst -b develop -s -
+         shinst install alternatex/shinst -b develop -n shinst-custom -s -
+         shinst install -r https://github.com/alternatex/shinst.git -b develop -n shinst-custom -s -
 
 version: 1.4.0
 
@@ -104,19 +107,19 @@ Changelog
 * added custom configuration .shinstrc
 
 **1.4.0:**<br/>
+* added custom branch support
+* added basic dependency management
 * added localization 
-* added dependency manager
 * added web installer
 
 Roadmap
 -------------
 - general web based installer (install.sh?user/repo » shinst.json)
 - basic dependency management
+- branch / .shinstrc integration
 - system language detection / l18N / externalize messages / .po *
-
-- custom branch support / starter version (extend .shinstrc » see growl grouping approach)
-- longopts 
 - modules support
+  - externalize commands 
   - configuration 
   - basic logger
   - include major management systems 
@@ -128,13 +131,14 @@ Roadmap
       - protocol: http/s, ssh/scp, ..
       - vcs: hg, svn, ..
   - grunt 
-  - extend specs for w/ postinstallation dependencies:
+  - extend specs for w/ post-installation dependencies:
       - configuration mappings
       - language (integrate existing l18n stuff)
   - module spec extension/rework » zsh/oh-my-zsh  
   - vramsteg  
-  - growl messages   
-- batch processing (update packages)
+  - growl messages 
+- longopts     
+- batch processing / new commands (update packages)
 - improve installer/uninstaller
 - track "projects" (relates to update packages)
 - custom directory support (.shinstrc) for pkg installation w/ NPM approach (w/add. defaults: global/local)

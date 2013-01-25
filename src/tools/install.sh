@@ -3,6 +3,9 @@
 # go home
 cd ~
 
+# installer params
+branch=${1:-"master"}
+
 # check installation
 if [[ -a "$(which shinst)" ]]
   then 
@@ -45,7 +48,7 @@ else
   # TODO: set $SHINST_VERSION!
 
   # install self
-  ./shinst.sh "install" "alternatex/shinst" -s -
+  ./shinst.sh "install" "alternatex/shinst" -b "$branch" -s -
 
   # verbose
   ./shinst.sh
