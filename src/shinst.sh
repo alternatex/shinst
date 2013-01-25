@@ -30,13 +30,14 @@ initialization="${SHINST}/src/defaults/${rc}"
 localization="${SHINST}/src/messages/${locale}.sh"
 
 # helpers
-opts="hvn:p:r:s:"
+opts="hvn:p:r:s:b:"
 action_install="install"
 action_update="update"
 action_remove="remove"
 
 # internals » TODO: contextualize *
 name=
+branch=
 prefix=
 repo=
 verbose=
@@ -48,6 +49,7 @@ ghrepo="$2"
 
 # repository references
 repo_github="https://github.com"
+repo_branch="master"
 
 # sanitization / validation
 check=${check:-"false"}
@@ -90,10 +92,11 @@ options:
   -n <name>     local package name
   -p <prefix>   installation path prefix (defaults to ~/)
   -r <url>      GIT repository (e.g. https://github.com/alternatex/shinst.git)
+  -b <branch>   branch to checkout (defaults to master)
   -s <script>   run this script after clone (defaults to install.sh | use "-" to skip)
   -v            verbose
 
-example: shinst install alternatex/shinst -s -
+example: shinst install alternatex/shinst -b develop -s -
          shinst install alternatex/shinst -n shinst-custom -s -
          shinst install -r https://github.com/alternatex/shinst.git -n shinst-custom -s -
 
@@ -145,7 +148,7 @@ init(){
     fi
 
     # clone repo
-    git clone "$repo" "$installdir"
+    git clone "$repo" "$installdir" && git checkout "$branch"
     
     # shell configuration file
     local shellcfg="$HOME/.bashrc"
@@ -225,6 +228,7 @@ defaults(){
   verbose "applying defaults"
 
   # apply defaults
+  branch=${branch:-$repo_branch}
   prefix=${prefix:-$HOME}
   script=${script:-$installer}
   
@@ -409,6 +413,11 @@ do
     r) 
       repo=$OPTARG
       ;; 
+
+    # branch
+    r) 
+      branch=$OPTARG
+      ;;       
     
     # script
     s) 
