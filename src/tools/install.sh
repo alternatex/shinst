@@ -16,10 +16,10 @@ else
   echo "web installer" 
 
   # fetch installer
-  wget "https://raw.github.com/alternatex/shinst/master/src/shinst.sh" -O shinst.sh && chmod a+x shinst.sh  
+  wget "https://raw.github.com/alternatex/shinst/develop/src/shinst.sh" -O shinst.sh && chmod a+x shinst.sh  
 
   # default configuration
-  wget "https://raw.github.com/alternatex/shinst/master/.shinstrc" -O ~/.shinstrc
+  wget "https://raw.github.com/alternatex/shinst/develop/.shinstrc" -O ~/.shinstrc
 
   # shell configuration file
   local shellcfg="$HOME/.bashrc"
