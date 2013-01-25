@@ -3,8 +3,6 @@ Shinst
 
 Superficial - yet GIT-ortiented - package management utility
 
-The real cuties npm, bower, volo, composer on the back, soon, maybe, not. 
-
 Installation
 ------------
 
@@ -53,7 +51,7 @@ example: shinst install alternatex/shinst -b develop -s -
          shinst install alternatex/shinst -b develop -n shinst-custom -s -
          shinst install -r https://github.com/alternatex/shinst.git -b develop -n shinst-custom -s -
 
-version: 1.4.0
+version: 1.5.0
 
 ```
 
@@ -119,16 +117,16 @@ Changelog
 - added custom configuration (.shinstrc)
 
 **1.4.0:**
-- added basic support for common package management systems (NPM, Bower, Composer, Volo)
+- added basic support for common package management systems (npm, bower, composer, volo)
 - added custom branch support
 - added simplified installation routine "web-installer"
 
-Agile Roadmap
--------------
-
 **1.5.0:**
 - system language detection / l18N / externalize messages / .po *
-- add path support as repo reference
+- added local repository support
+
+Agile Roadmap
+-------------
 
 **1.6.0:**
 - basic dependency management (getting rid of install scripts for dependencies installable via shinst)

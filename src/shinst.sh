@@ -4,7 +4,7 @@
 export SHINST=~/.shinst 
 
 # version
-export SHINST_VERSION="1.4.0"
+export SHINST_VERSION="1.5.0"
 
 # automatically check for updates
 auto_update="true"
