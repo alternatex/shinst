@@ -5,6 +5,7 @@ cd ~
 
 # installer params
 branch=${1:-"master"}
+ghrepo=${2:-""}
 
 # check installation
 if [[ -a "$(which shinst)" ]]
@@ -12,11 +13,7 @@ if [[ -a "$(which shinst)" ]]
   
   # do nothing *
   printf "\e[32mshinst is installed.\e[0m   $1\n"
-  exit 1
 else
-
-  # web installer » save to disk » store file to disk fetch get param and evaluate... *
-  echo "web installer" 
 
   # fetch installer
   wget "https://raw.github.com/alternatex/shinst/develop/src/shinst.sh" -O shinst.sh && chmod a+x shinst.sh  
@@ -44,8 +41,6 @@ else
   echo "# shinst" >> $shellcfg
   echo "export PATH=~/.shinst/bin:$PATH" >> $shellcfg       
   echo "source $HOME/.shinstrc" >> $shellcfg       
-  
-  # TODO: set $SHINST_VERSION!
 
   # install self
   ./shinst.sh "install" "alternatex/shinst" -b "$branch" -s -
@@ -59,3 +54,10 @@ else
   # cleanup
   rm -rf shinst.sh
 fi
+
+# check for updates first whilst we're at it???
+# FIX UPDATE CHECK!!!!
+if [[ "$ghrepo" != "" ]]; then 
+  shinst install $ghrepo -b $branch
+fi
+exit 1

@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # home
-SHINST=~/.shinst 
+export SHINST=~/.shinst 
 
 # version
-SHINST_VERSION="1.4.0"
+export SHINST_VERSION="1.4.0"
 
 # automatically check for updates
 auto_update="true"
@@ -188,8 +188,42 @@ init(){
     # restore cwd
     cd "$current_path"
     
-    # apply
-    $SHELL && . $shellcfg 
+    # apply - TODO: handle appropriately
+    #$SHELL && . $shellcfg 
+
+    # ...
+    cd "$installdir" 
+
+    # npm
+    if [[ -a "$(which npm)" ]] && [[ -a "package.json" ]]
+      then 
+      printf "\e[32mrunning NPM install\e[0m\n"
+      npm install
+    fi
+    
+    # bower
+    if [[ -a "$(which bower)" ]] && [[ -a "component.json" ]]
+      then 
+      printf "\e[32mrunning bower install\e[0m\n"
+      bower install
+    fi
+
+    # composer
+    if [[ -a "$(which composer)" ]] && [[ -a "composer.json" ]]
+      then 
+      printf "\e[32mrunning composer install\e[0m\n"
+      composer install
+    fi
+
+    # volo
+    if [[ -a "$(which volo)" ]] # package.json vs. inline vs. xxx. think.
+      then 
+      printf "\e[32mrunning volo install\e[0m\n"
+      volo install      
+    fi
+
+    # restore cwd
+    cd "$current_path"
 
   # handle action - update
   elif [ "$action" = "$action_update" ]; then

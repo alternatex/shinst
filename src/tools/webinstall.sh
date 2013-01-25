@@ -1,1 +1,0 @@
-webinstall.sh

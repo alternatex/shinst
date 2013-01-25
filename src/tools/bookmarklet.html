@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+</head>
+<body>
+<h1>github bookmarklet</h1>
+<textarea></textarea>
+</body>
+<script>
+void((function(){
+	var url = document.location.href;
+	if(url.indexOf("github.com")!=-1){
+		var parts = url.split("/"),
+			username = parts[parts.length-2],
+			repository = parts[parts.length-1];
+		console.log("username", username, "repository", repository);
+	}
+})());
+</script>
+</html>

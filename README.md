@@ -19,10 +19,12 @@ You can install this via the command line with either `curl` or `wget`.
 via `curl`
 
 `bash -s stable < <(curl -s https://raw.github.com/alternatex/shinst/master/src/tools/install.sh)`
+`bash -s stable < <(curl -s https://raw.github.com/alternatex/shinst/develop/src/tools/install.sh)`
 
 via `wget`
 
 `bash -s stable < <(wget https://raw.github.com/alternatex/shinst/master/src/tools/install.sh -O -)`
+`bash -s stable < <(wget https://raw.github.com/alternatex/shinst/develop/src/tools/install.sh -O -)`
 
 Usage
 -------------
@@ -58,6 +60,15 @@ version: 1.4.0
 Specification
 -------------
 
+**"bookmarklet installer"**
+TODO: host..* send line » see below whole installer call in bash script w/appropriate headers?!
+
+**"web installer"**
+
+`bash -s $branch $ghrepo < <(wget https://raw.github.com/alternatex/shinst/master/src/tools/install.sh -O -)`
+
+`bash -s $branch $ghrepo < <(wget https://raw.github.com/alternatex/shinst/develop/src/tools/install.sh -O -)`
+
 **.shinstrc**
 
 ```shell
@@ -87,6 +98,32 @@ grunt.initConfig({
 });
 ```
 
+Repository Manager
+------------------
+
+### Server
+
+...
+
+### Client
+
+**Supported Browsers:** Chrome,...
+
+local/remote handling - auth? \*
+
+**Installation:**
+
+```javascript
+navigator.registerProtocolHandler(
+    'web+shinst', 'http://localhost:3232/shinst?q=%s', 'Shinst Web Installer');
+``` 
+
+**Usage:**
+
+```html
+<a href="web+shinst:alternatex%2Fshinst">Install through "Shinst Web Installer"</a>
+```
+
 Integration
 -----------
 ...
@@ -94,49 +131,41 @@ Integration
 Changelog
 -------------
 
-**1.1.0:**<br/>
-* added miscellaneous \*
+**1.1.0:**
+- added \*\*\*
 
-**1.2.0:**<br/>
-* added self-updater
+**1.2.0:**
+- added self-updater
 
-**1.2.1:**<br/>
-* improved feature detection
-* improved installation routine
+**1.2.1:**
+- improved feature detection
+- improved installation routine
 
-**1.3.0:**<br/>
-* added custom configuration .shinstrc
+**1.3.0:**
+- added custom configuration (.shinstrc)
 
-**1.4.0:**<br/>
-* added custom branch support
-* added web installer
+**1.4.0:**
+- added basic support for common package management systems (NPM, Bower, Composer, Volo)
+- added custom branch support
+- added simplified installation routine "web-installer"
 
 Agile Roadmap
 -------------
 
-- general web based installer (install.sh?user/repo » shinst.json)
-- branch / .shinstrc integration
-
-**1.5.0:**<br/>
+**1.5.0:**
 - system language detection / l18N / externalize messages / .po *
+- add path support as repo reference
 
-**1.6.0:**<br/>
+**1.6.0:**
 - basic dependency management (getting rid of install scripts for dependencies installable via shinst)
 - modules support
 
-**1.7.0:**<br/>
+**1.7.0:**
 - modules
+  - shinst.json 
   - externalize commands 
   - configuration 
   - basic logger
-  - include major management systems 
-      - npm
-      - bower
-      - volo
-      - composer      
-  - additional wrappers
-      - protocol: http/s, ssh/scp, ..
-      - vcs: hg, svn, ..
   - grunt 
   - extend specs for w/ post-installation dependencies:
       - configuration mappings
@@ -145,17 +174,26 @@ Agile Roadmap
   - vramsteg  
   - growl messages 
 
-**1.8.0:**<br/>
-- local repository (artifactory *)
+**1.8.0:**
+- modules
+  - include major management systems 
+      - npm
+      - bower
+      - volo
+      - composer
+  - additional wrappers
+      - protocol: http/s, ssh/scp, ..
+      - vcs: hg, svn, ..      
+- add longtops support
 - improve installer/uninstaller
-- longopts     
-- batch processing / new commands (update packages)
+- local repository (artifactory *)
 
-**1.9.0:**<br/>
+**1.9.0:**
+- batch processing / new commands (update packages)
 - track "projects" (relates to update packages)
 - custom directory support (.shinstrc) for pkg installation w/ NPM approach (w/add. defaults: global/local)
 
-**2.0.0:**<br/>
+**2.0.0:**
 - move test repository into core
 - ... *
 
