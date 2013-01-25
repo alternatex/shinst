@@ -148,7 +148,7 @@ init(){
     fi
 
     # clone repo
-    git clone "$repo" "$installdir" && git checkout "$branch"
+    git clone "$repo" "$installdir" && cd "$installdir" && git checkout "$branch" && cd -
     
     # shell configuration file
     local shellcfg="$HOME/.bashrc"
