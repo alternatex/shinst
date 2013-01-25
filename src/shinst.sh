@@ -1,39 +1,33 @@
 #!/bin/bash
 
-# environment *
+# home
 SHINST=~/.shinst 
 
 # version
-version="1.3.0"
+SHINST_VERSION="1.4.0"
 
-# auto-update
+# automatically check for updates
 auto_update="true"
 
-# flags # directories # scripts
-
-# configuration
-conf_script="${SHINST}/src/defaults/.shinstrc"
-
-# filesystem context/scope
-context_global="true" 
+# configuration/initialization
+rcfile=.shinstrc
 
 # installation
-install_script="install.sh"
+installer="install.sh"
 
 # localization
 locale="en_US"
-locale_script="${SHINST}/src/messages/${locale}.sh"
 
-# modules
+# directories » TODO: contextualize *
 dir_modules="${HOME}/.shinst-modules"
+dir_messages="${HOME}/.shinst/src/messages"
 
-# defaults » TODO: contextualize *
-defaults_global="true"
-defaults_script="install.sh"
-defaults_conf="${SHINST}/src/defaults/.shinstrc"
-defaults_messages="${SHINST}/src/messages/${locale}.sh"
-defaults_modules="${HOME}/.shinst-modules"
-defaults_prefix="${HOME}" 
+# scope 
+scope="global" # global | local
+
+# scripts
+initialization="${SHINST}/src/defaults/${rc}"
+localization="${SHINST}/src/messages/${locale}.sh"
 
 # helpers
 opts="hvn:p:r:s:"
@@ -42,33 +36,24 @@ action_update="update"
 action_remove="remove"
 
 # internals » TODO: contextualize *
-action=
 name=
 prefix=
-rcfile=
 repo=
-ghrepo=
 verbose=
 script=
 
-# pre-fetch params (processing to come)
-action="$1"
-ghrepo="$2"
+# pre-fetch / sanitize » TODO: contextualize *
+action="$1" 
+ghrepo="$2" 
 
-# references
-ref_github="https://github.com"
+# repository references
+repo_github="https://github.com"
 
 # sanitization / validation
 check=${check:-"false"}
 
 # formatting helpers 
 color_off='\e[0m'; black='\e[0;30m'; red='\e[0;31m'; green='\e[0;32m'; yellow='\e[0;33m'; blue='\e[0;34m'; purple='\e[0;35m'; cyan='\e[0;36m'; white='\e[0;37m'; bblack='\e[1;30m'; bred='\e[1;31m'; bgreen='\e[1;32m'; byellow='\e[1;33m'; bblue='\e[1;34m'; bpurple='\e[1;35m'; bcyan='\e[1;36m'; bwhite='\e[1;37m';       
-
-# messages
-message_dir="directory"
-message_file="file"
-message_exists_true="exists"
-message_exists_false="not found"
 
 # arguments index
 shiftby=1
@@ -113,7 +98,7 @@ example: shinst install alternatex/shinst -s -
          shinst install -r https://github.com/alternatex/shinst.git -n shinst-custom -s -
 
 EOF
-echo "version: $version"
+echo "version: $SHINST_VERSION"
 exit -1
 }
 
@@ -171,12 +156,12 @@ init(){
     fi
 
     # update shell configuration
-    echo "# module ${name}" >> "$HOME/.shinstrc"         
-    echo "export PATH=\$HOME/.$name/bin:\$PATH; # module ${name}" >> "$HOME/.shinstrc"
+    echo "# module ${name}" >> "$HOME/$rcfile"         
+    echo "export PATH=\$HOME/.$name/bin:\$PATH; # module ${name}" >> "$HOME/$rcfile"
   
     # inject growl group identifier
-    echo "# module ${name} growl messaging" >> "$HOME/.shinstrc"         
-    echo "export GROWL_ID_$(echo $name | tr '[a-z]' '[A-Z]')=$name; # module ${name}" >> "$HOME/.shinstrc"
+    echo "# module ${name} growl messaging" >> "$HOME/$rcfile"         
+    echo "export GROWL_ID_$(echo $name | tr '[a-z]' '[A-Z]')=$name; # module ${name}" >> "$HOME/$rcfile"
 
     # store cwd
     local current_path=`pwd` 
@@ -219,7 +204,7 @@ init(){
       printf "remove $name? («Y» to edit or any key to cancel) " && read -e REPLY  
       
       # cleanup / remove entries from configuration file    
-      cat .shinstrc | grep -Ev "# module ${name}|$(echo "# module ${name}" | tr '[a-z]' '[A-Z]')" | tee ~/.shinstrc > /dev/null
+      cat "$HOME/$rcfile" | grep -Ev "# module ${name}|$(echo "# module ${name}" | tr '[a-z]' '[A-Z]')" | tee "$HOME/$rcfile" > /dev/null
 
       # process deletion or abort
       ([ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]) && rm -rf "$installdir" && echo "removed $installdir"
@@ -241,7 +226,7 @@ defaults(){
 
   # apply defaults
   prefix=${prefix:-$HOME}
-  script=${script:-$defaults_script}
+  script=${script:-$installer}
   
   # no args
   if [[ -z "$action" ]]
@@ -271,19 +256,17 @@ defaults(){
     then
 
     # build github url
-    repo="${ref_github}/${ghrepo}.git"; 
+    repo="${repo_github}/${ghrepo}.git"; 
 
     # check name
     if [[ -z "$name" ]] 
       then 
   
-      # extract name from ghrepo 
+      # name » determine string length 
       local tmp_len=`echo ${#ghrepo}`
-      
-      # ... (combine *)
       tmp_len=$((tmp_len-separator))
       
-      # set global «name»
+      # name » extract to global from ghrepo 
       name=${ghrepo:($separator):($tmp_len)}
       
       # verbose
@@ -291,7 +274,7 @@ defaults(){
     fi
   else 
 
-    # unset 
+    # unset global
     ghrepo="-"
 
     # require name    
@@ -327,14 +310,10 @@ defaults(){
     fi        
   fi
 
-  # default config
-  rcfile=".${name}c"
-
   # info
   info "action:      ${action}"
   info "ghrepo:      ${ghrepo}"
   info "name:        ${name}"
-  info "rcfile:      ${rcfile}"
   info "repo:        ${repo}"
   info "prefix:      ${prefix}"
   info "directory:   ${prefix}/.${name}"  
@@ -392,7 +371,7 @@ then
   fi
 fi
 
-# determine separator pos/existance
+# determine separator
 separator=`echo $ghrepo | sed -n "s/[/].*//p" | wc -c`
 
 # switch mode

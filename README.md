@@ -1,7 +1,7 @@
 Shinst
 =============
 
-Superficial package management utility
+Superficial - yet GIT-ortiented - package management utility
 
 Installation
 ------------
@@ -48,7 +48,7 @@ example: shinst install alternatex/shinst -s -
          shinst install alternatex/shinst -n shinst-custom -s -
          shinst install -r https://github.com/alternatex/shinst.git -n shinst-custom -s -
 
-version: 1.3.0
+version: 1.4.0
 
 ```
 
@@ -91,22 +91,31 @@ Integration
 Changelog
 -------------
 **1.1.0:**<br/>
-* determine package name by ghrepo
+* added miscellaneous \*
 
 **1.2.0:**<br/>
 * added self-updater
 
+**1.2.1:**<br/>
+* improved feature detection
+* improved installation routine
+
 **1.3.0:**<br/>
 * added custom configuration .shinstrc
-* modified feature detection
-* improved installation routine
+
+**1.4.0:**<br/>
+* added localization 
+* added dependency manager
+* added web installer
 
 Roadmap
 -------------
 - general web based installer (install.sh?user/repo » shinst.json)
 - basic dependency management
-- custom branch support / starter version (extend .shinstrc » see growl grouping approach)
 - system language detection / l18N / externalize messages / .po *
+
+- custom branch support / starter version (extend .shinstrc » see growl grouping approach)
+- longopts 
 - modules support
   - configuration 
   - basic logger
@@ -119,12 +128,12 @@ Roadmap
       - protocol: http/s, ssh/scp, ..
       - vcs: hg, svn, ..
   - grunt 
-  - vramsteg  
-  - growl messages 
   - extend specs for w/ postinstallation dependencies:
       - configuration mappings
       - language (integrate existing l18n stuff)
   - module spec extension/rework » zsh/oh-my-zsh  
+  - vramsteg  
+  - growl messages   
 - batch processing (update packages)
 - improve installer/uninstaller
 - track "projects" (relates to update packages)

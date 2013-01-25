@@ -1,0 +1,50 @@
+{
+  "name": "shinst",    
+  "version": "1.4.0",
+  "description": "Superficial package management utility",
+  "keywords": ["phar", "filesystem", "watch", "update", "auto"],
+  "homepage": "http://github.com/alternatex/shinst",
+  "author": {
+    "name": "Gianni Furger",
+    "email": "gianni.furger@gmail.com",
+    "url": "http://github.com/alternatex/"
+  },
+  "bundle": "shinst",
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "https://raw.github.com/alternatex/shinst/master/LICENSE"
+    },
+    {
+      "type": "MIT",
+      "url": "https://raw.github.com/alternatex/shinst/master/LICENSE"
+    }
+  ],
+  "dependencies": {
+    "copy": ">=0.1.x"
+  },    
+  "provides": {      
+    "redis": {
+      "ghrepo": "antirez/redis",
+      "script": " \
+        make \
+        make test \
+      "
+    },
+    "bazinga": {
+      "ghrepo": "alternatex/bazinga",
+      "script": " \
+        echo 'dependency::bazinga'
+      "
+    }
+  },
+  "commands": {
+    "copy": {
+      "package_1": { "src": "/path/to/file", "dest": "/path/to/file" },
+      "package_2": { "src": "/path/to/file", "dest": "/path/to/file" },
+      "package_3": { "src": "/path/to/file", "dest": "/path/to/file" },
+      "package_4": { "src": "/path/to/file", "dest": "/path/to/file" },
+      "package_5": { "src": "/path/to/file", "dest": "/path/to/file" }
+    }
+  }
+}
