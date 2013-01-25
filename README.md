@@ -93,6 +93,7 @@ Integration
 
 Changelog
 -------------
+
 **1.1.0:**<br/>
 * added miscellaneous \*
 
@@ -108,17 +109,23 @@ Changelog
 
 **1.4.0:**<br/>
 * added custom branch support
-* added basic dependency management
-* added localization 
 * added web installer
 
-Roadmap
+Agile Roadmap
 -------------
+
 - general web based installer (install.sh?user/repo » shinst.json)
-- basic dependency management
 - branch / .shinstrc integration
+
+**1.5.0:**<br/>
 - system language detection / l18N / externalize messages / .po *
+
+**1.6.0:**<br/>
+- basic dependency management (getting rid of install scripts for dependencies installable via shinst)
 - modules support
+
+**1.7.0:**<br/>
+- modules
   - externalize commands 
   - configuration 
   - basic logger
@@ -137,11 +144,18 @@ Roadmap
   - module spec extension/rework » zsh/oh-my-zsh  
   - vramsteg  
   - growl messages 
+
+**1.8.0:**<br/>
+- local repository (artifactory *)
+- improve installer/uninstaller
 - longopts     
 - batch processing / new commands (update packages)
-- improve installer/uninstaller
+
+**1.9.0:**<br/>
 - track "projects" (relates to update packages)
 - custom directory support (.shinstrc) for pkg installation w/ NPM approach (w/add. defaults: global/local)
+
+**2.0.0:**<br/>
 - move test repository into core
 - ... *
 
