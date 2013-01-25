@@ -58,9 +58,6 @@ version: 1.5.0
 Specification
 -------------
 
-**"bookmarklet installer"**
-TODO: host..* send line » see below whole installer call in bash script w/appropriate headers?!
-
 **"web installer"**
 
 `bash -s $branch $ghrepo < <(wget https://raw.github.com/alternatex/shinst/master/src/tools/install.sh -O -)`
@@ -70,30 +67,7 @@ TODO: host..* send line » see below whole installer call in bash script w/appro
 **.shinstrc**
 
 ```shell
-export SHINST=~/.shinst
-```
-
-**package.json**
-
-```javascript
-"shinst": {
-  "dependencies": {
-    "<github:username/repository>": ">=$<version-tag>"
-  }
-} 
-```
-
-**grunt.js**
-
-```javascript
-grunt.initConfig({
-  cp: {
-    identifier: {
-      src:  '/s/r/c',
-      dest: '/d/e/s/t'
-    }
-  }
-});
+# ...
 ```
 
 Integration
