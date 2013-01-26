@@ -130,7 +130,7 @@ init(){
       printf "remove? («Y» to edit or any key to skip) " && read -e -t 5 REPLY
       
       # automatically set
-      if [[ -z $REPLY ]];   then REPLY='n'; fi
+      if [[ -z $REPLY ]]; then REPLY='n'; fi
       
       # remove and continue
       if ([ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]); then
@@ -197,7 +197,7 @@ init(){
     # npm
     if [[ -a "$(which npm)" ]] && [[ -a "package.json" ]]
       then 
-      printf "\e[32mrunning NPM install\e[0m\n"
+      printf "\e[32mrunning npm install\e[0m\n"
       npm install
     fi
     
@@ -240,11 +240,8 @@ init(){
       # request user input
       printf "remove $name? («Y» to edit or any key to cancel) " && read -e REPLY  
       
-      # cleanup / remove entries from configuration file    
-      cat "$HOME/$rcfile" | grep -Ev "# module ${name}|$(echo "# module ${name}" | tr '[a-z]' '[A-Z]')" | tee "$HOME/$rcfile" > /dev/null
-
-      # process deletion or abort
-      ([ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]) && rm -rf "$installdir" && echo "removed $installdir"
+      # process deletion or abort / cleanup / remove entries from configuration file    
+      ([ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]) && rm -rf "$installdir" && echo "removed $installdir" && cat "$HOME/$rcfile" | grep -Ev "# module ${name}|$(echo "# module ${name}" | tr '[a-z]' '[A-Z]')" | tee "$HOME/$rcfile" > /dev/null
     else 
       error "$name not found"
     fi

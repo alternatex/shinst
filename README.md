@@ -36,20 +36,21 @@ usage:  shinst <action> <ghrepo> [options]
 
 action: install, update, remove
 
-ghrepo: github repository <user>/<repo> e.g. alternatex/shinst
+ghrepo: github repository <user>/<repo> e.g. alternatex/bazinga
 
 options:
   -h            shows this message        
   -n <name>     local package name
   -p <prefix>   installation path prefix (defaults to ~/)
-  -r <url>      GIT repository (e.g. https://github.com/alternatex/shinst.git)
+  -r <url>      GIT repository (e.g. https://github.com/alternatex/bazinga.git)
   -b <branch>   branch to checkout (defaults to master)
   -s <script>   script to run after clone (defaults to install.sh | use "-" to skip)
   -v            verbose
 
-example: shinst install alternatex/shinst -b develop -s -
-         shinst install alternatex/shinst -b develop -n shinst-custom -s -
-         shinst install -r https://github.com/alternatex/shinst.git -b develop -n shinst-custom -s -
+example: shinst install alternatex/bazinga
+         shinst install alternatex/bazinga -b develop -s -
+         shinst install alternatex/bazinga -b develop -n bazinga-custom -s -
+         shinst install -r https://github.com/alternatex/bazinga.git -b develop -n bazinga-custom -s -
 
 version: 1.5.0
 
@@ -58,7 +59,7 @@ version: 1.5.0
 Specification
 -------------
 
-**"web installer"**
+**webinst**
 
 `bash -s $branch $ghrepo < <(wget https://raw.github.com/alternatex/shinst/master/src/tools/install.sh -O -)`
 
@@ -76,7 +77,6 @@ Integration
 
 Changelog
 -------------
-
 **1.1.0:**
 - added \*\*\*
 
@@ -92,8 +92,8 @@ Changelog
 
 **1.4.0:**
 - added basic support for common package management systems (npm, bower, composer, volo)
-- added custom branch support
-- added simplified installation routine "web-installer"
+- added custom branch switch
+- added `webinst` routine 
 
 **1.5.0:**
 - system language detection / l18N / externalize messages / .po *
@@ -101,14 +101,14 @@ Changelog
 
 Agile Roadmap
 -------------
-
 **1.6.0:**
 - basic dependency management (getting rid of install scripts for dependencies installable via shinst)
 - modules support
 
 **1.7.0:**
 - modules
-  - shinst.json 
+  - bash.json
+  - shinst.json (copy/path/xxx)
   - externalize commands 
   - configuration 
   - basic logger
@@ -140,6 +140,7 @@ Agile Roadmap
 - custom directory support (.shinstrc) for pkg installation w/ NPM approach (w/add. defaults: global/local)
 
 **2.0.0:**
+- repository manager
 - move test repository into core
 - ... *
 

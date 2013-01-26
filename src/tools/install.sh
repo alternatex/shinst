@@ -3,10 +3,6 @@
 # go home
 cd ~
 
-# installer params
-branch=${1:-"master"}
-ghrepo=${2:-""}
-
 # check installation
 if [[ -a "$(which shinst)" ]]
   then 
@@ -43,7 +39,7 @@ else
   echo "source $HOME/.shinstrc" >> $shellcfg       
 
   # install self
-  ./shinst.sh "install" "alternatex/shinst" -b "$branch" -s -
+  ./shinst.sh "install" "alternatex/shinst" -b "stable" -s -
 
   # verbose
   ./shinst.sh
@@ -55,9 +51,8 @@ else
   rm -rf shinst.sh
 fi
 
-# check for updates first whilst we're at it???
-# FIX UPDATE CHECK!!!!
-if [[ "$ghrepo" != "" ]]; then 
-  shinst install $ghrepo -b $branch
+# check for updates first whilst we're at it?
+if [[ "$2" != "" ]]; then 
+  shinst install ${2} -b ${1:-"master"}
 fi
 exit 1

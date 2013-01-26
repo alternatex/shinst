@@ -8,12 +8,26 @@
 </body>
 <script>
 void((function(){
+	navigator.registerProtocolHandler("mailto",
+    	                              "https://www.example.com/?uri=%s",
+        	                          "Example Mail");	
 	var url = document.location.href;
 	if(url.indexOf("github.com")!=-1){
-		var parts = url.split("/"),
-			username = parts[parts.length-2],
-			repository = parts[parts.length-1];
+		var parts = url.split("/");
+		console.log(parts.length);
+		for(var part in parts) {
+			console.log("part", parts[part]);
+			if(parts[part]=='') {
+				console.log("found empty")
+				delete(parts[part]);
+			} 
+		}
+		console.log(parts.length);
+		username = parts[parts.length-2],
+		repository = parts[parts.length-1];
+//			document.location.href="";
 		console.log("username", username, "repository", repository);
+	
 	}
 })());
 </script>
