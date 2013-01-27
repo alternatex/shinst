@@ -35,6 +35,7 @@ else
 
   # ...
   echo "# shinst" >> $shellcfg
+  echo "export SHINST=~/.shinst" >> $shellcfg       
   echo "export PATH=~/.shinst/bin:$PATH" >> $shellcfg       
   echo "source $HOME/.shinstrc" >> $shellcfg       
 

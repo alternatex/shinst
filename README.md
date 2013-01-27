@@ -3,6 +3,8 @@ Shinst
 
 Superficial - yet GIT-ortiented - package management utility
 
+Package management, really?
+
 Installation
 ------------
 
@@ -97,20 +99,21 @@ Changelog
 
 **1.5.0:**
 - system language detection / l18N / externalize messages / .po *
-- added local repository support
+- added local repository support (fs path)
 
 Agile Roadmap
 -------------
 **1.6.0:**
 - basic dependency management (getting rid of install scripts for dependencies installable via shinst)
 - modules support
-
-**1.7.0:**
 - modules
   - bash.json
   - shinst.json (copy/path/xxx)
   - externalize commands 
   - configuration 
+
+**1.7.0:**
+- modules
   - basic logger
   - grunt 
   - extend specs for w/ post-installation dependencies:
@@ -140,7 +143,7 @@ Agile Roadmap
 - custom directory support (.shinstrc) for pkg installation w/ NPM approach (w/add. defaults: global/local)
 
 **2.0.0:**
-- repository manager
+- repository manager / custom web+shinst protocol / content type handlers
 - move test repository into core
 - ... *
 

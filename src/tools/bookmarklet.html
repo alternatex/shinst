@@ -8,13 +8,14 @@
 </body>
 <script>
 void((function(){
-	navigator.registerProtocolHandler("mailto",
-    	                              "https://www.example.com/?uri=%s",
-        	                          "Example Mail");	
+	false && navigator.registerProtocolHandler("web+shinst",
+    	                              "https://www.alternatex.ch/?pkg=%s",
+        	                          "Shinstall *");	
 	var url = document.location.href;
 	if(url.indexOf("github.com")!=-1){
 		var parts = url.split("/");
 		console.log(parts.length);
+		// wrong way to do this: handles array as objects » length is no longer length ^^
 		for(var part in parts) {
 			console.log("part", parts[part]);
 			if(parts[part]=='') {
@@ -25,7 +26,7 @@ void((function(){
 		console.log(parts.length);
 		username = parts[parts.length-2],
 		repository = parts[parts.length-1];
-//			document.location.href="";
+//	    document.location.href="";
 		console.log("username", username, "repository", repository);
 	
 	}

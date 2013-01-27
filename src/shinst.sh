@@ -158,6 +158,8 @@ init(){
       shellcfg="$HOME/.zshrc"
     fi
 
+    # shellcfg update shinstrc only?
+
     # update shell configuration
     echo "# module ${name}" >> "$HOME/$rcfile"         
     echo "export PATH=\$HOME/.$name/bin:\$PATH; # module ${name}" >> "$HOME/$rcfile"
