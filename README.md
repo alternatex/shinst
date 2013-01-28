@@ -98,8 +98,9 @@ Changelog
 - added `webinst` routine 
 
 **1.5.0:**
+- added local repository support
+- added terminal-notifier (optional/MacOSX)
 - system language detection / l18N / externalize messages / .po *
-- added local repository support (fs path)
 
 Agile Roadmap
 -------------

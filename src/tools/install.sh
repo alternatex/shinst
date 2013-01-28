@@ -35,7 +35,10 @@ else
 
   # ...
   echo "# shinst" >> $shellcfg
-  echo "export SHINST=~/.shinst" >> $shellcfg       
+  echo "export SHINST=~/.shinst" >> $shellcfg         
+  # TODO: determine OS & VERSION
+  export SHINST_OS="MacOSX"
+  echo "export SHINST_OS=$SHINST_OS" >> $shellcfg         
   echo "export PATH=~/.shinst/bin:$PATH" >> $shellcfg       
   echo "source $HOME/.shinstrc" >> $shellcfg       
 
@@ -56,4 +59,47 @@ fi
 if [[ "$2" != "" ]]; then 
   shinst install ${2} -b ${1:-"master"}
 fi
-exit 1
+
+function terminal_notifier(){
+  
+  # check terminal notifier
+  if [[ -a "$(which terminal-notifier)" ]]
+    then 
+    echo "export SHINST_NOTIFY=true" >> $shellcfg
+    printf "\e[32mterminal-notifier found.\e[0m \n"
+  else
+
+    # install dependency
+    printf "\e[32minstalling terminal-notifier through gem...\e[0m \n"
+  
+    # check if this is really needed - catch ex - request only if ???    
+    sudo gem install terminal-notifier
+
+    # check installation
+    if [[ -a "$(which terminal-notifier)" ]]
+      then 
+        echo "export SHINST_NOTIFY=true" >> $shellcfg
+        printf "\e[32malloy/terminal-notifier installed.\e[0m \n"
+    else
+      printf "\e[1;31malloy/terminal-notifier installation failed.\e[0m \n"
+      echo "export SHINST_NOTIFY=" >> $shellcfg  
+    fi  
+    printf "\e[32mdone.\e[0m   $1\n"
+  fi
+}
+
+# optional extension * (TODO: VERSION check!)
+if [[ $SHINST_OS == "MacOSX" ]]; then
+  if [[ ! -a "$(which terminal-notifier)" ]]
+    then 
+
+    # request user input
+    printf "install terminal-notifier? («Y» to install or any key to skip) " && read -e REPLY  
+
+    # process deletion or abort / cleanup / remove entries from configuration file    
+    ([ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]) && terminal_notifier
+  fi
+fi
+
+# really?
+exit 1  

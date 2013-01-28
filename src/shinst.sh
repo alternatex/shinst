@@ -1,10 +1,16 @@
 #!/bin/bash
 
+# some bash opts
+set -o nounset
+
 # home
 export SHINST=~/.shinst 
 
 # version
 export SHINST_VERSION="1.5.0"
+
+# environment inspection
+source $SHINST/src/tools/environment.sh && inspect_env
 
 # automatically check for updates
 auto_update="true"
@@ -26,7 +32,7 @@ dir_messages="${HOME}/.shinst/src/messages"
 scope="global" # global | local
 
 # scripts
-initialization="${SHINST}/src/defaults/${rc}"
+initialization="${SHINST}/src/defaults/${rcfile}"
 localization="${SHINST}/src/messages/${locale}.sh"
 
 # helpers
@@ -256,6 +262,14 @@ init(){
 
 # default settings 
 defaults(){
+
+  # system info
+  verbose "os/dist: $OS/$DIST"
+  verbose "version: $VERSION"
+  verbose "kernel:  $KERNEL"    
+  verbose "mach:    $MACH"    
+  verbose "pseudo:  $PSUEDONAME"
+  verbose "rev:     $REV"
 
   # debug
   verbose "applying defaults"
