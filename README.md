@@ -51,7 +51,7 @@ example: shinst install alternatex/shinst -b develop -s -
          shinst install alternatex/shinst -b develop -n shinst-custom -s -
          shinst install -r https://github.com/alternatex/shinst.git -b develop -n shinst-custom -s -
 
-version: 1.4.0
+version: 1.4.1
 
 ```
 
@@ -94,6 +94,9 @@ Changelog
 - added basic support for common package management systems (NPM, Bower, Composer, Volo)
 - added custom branch support
 - added simplified installation routine "web-installer"
+
+**1.4.1:**
+- fixed self-updater
 
 Agile Roadmap
 -------------
