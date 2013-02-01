@@ -98,20 +98,20 @@ usage:  shinst <action> <ghrepo> [options]
 
 action: install, update, remove, list
 
-ghrepo: github repository <user>/<repo> e.g. alternatex/shinst
+ghrepo: github repository <user>/<repo> e.g. alternatex/bazinga
 
 options:
-  -h            show this message        
+  -h            shows this message        
   -n <name>     local package name
   -p <prefix>   installation path prefix (defaults to ~/)
-  -r <url>      GIT repository (e.g. https://github.com/alternatex/shinst.git)
+  -r <url>      GIT repository (e.g. https://github.com/alternatex/bazinga.git)
   -b <branch>   branch to checkout (defaults to master)
-  -s <script>   run this script after clone (defaults to install.sh | use "-" to skip)
+  -s <script>   script to run after clone (defaults to install.sh | use "-" to skip)
   -v            verbose
 
-example: shinst install alternatex/shinst -b develop -s -
-         shinst install alternatex/shinst -n shinst-custom -s -
-         shinst install -r https://github.com/alternatex/shinst.git -n shinst-custom -s -
+example: shinst install alternatex/bazinga -b develop -s -
+         shinst install alternatex/bazinga -n bazinga-custom -s -
+         shinst install -r https://github.com/alternatex/bazinga.git -n bazinga-custom -s -
          shinst list 
 
 EOF

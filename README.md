@@ -36,30 +36,25 @@ usage:  shinst <action> <ghrepo> [options]
         shinst <action> <ghrepo>  -n <name> [options]
         shinst <action> -r <repo> -n <name> [options]
 
-action: install, update, remove
+action: install, update, remove, list
 
 ghrepo: github repository <user>/<repo> e.g. alternatex/bazinga
 
 options:
-  -h            shows this message        
+  -h            show this message        
   -n <name>     local package name
   -p <prefix>   installation path prefix (defaults to ~/)
   -r <url>      GIT repository (e.g. https://github.com/alternatex/bazinga.git)
   -b <branch>   branch to checkout (defaults to master)
-  -s <script>   script to run after clone (defaults to install.sh | use "-" to skip)
+  -s <script>   run this script after clone (defaults to install.sh | use "-" to skip)
   -v            verbose
 
-example: shinst install alternatex/bazinga
-         shinst install alternatex/bazinga -b develop -s -
-         shinst install alternatex/bazinga -b develop -n bazinga-custom -s -
-         shinst install -r https://github.com/alternatex/bazinga.git -b develop -n bazinga-custom -s -
+example: shinst install alternatex/bazinga -b develop -s -
+         shinst install alternatex/bazinga -n shinst-custom -s -
+         shinst install -r https://github.com/alternatex/bazinga.git -n bazinga-custom -s -
+         shinst list
 
-<<<<<<< HEAD
 version: 1.5.0
-=======
-version: 1.4.1
->>>>>>> feature/1.4.1
-
 ```
 
 Specification
@@ -111,14 +106,6 @@ Changelog
 - added list command
 - added basic environment detection/switches
 - added terminal notifier
-
-TODO:
-- added terminal-notifier (MacOSX only)
-
-include messages!!!!
-include messages!!!!
-
-add switch global variable in shinst.sh when SHINST_NOTIFY="true" !!!!!!!
 
 Agile Roadmap
 -------------
