@@ -18,7 +18,7 @@ else
   wget "https://raw.github.com/alternatex/shinst/develop/src/defaults/.shinstrc" -O ~/.shinstrc
 
   # shell configuration file
-  local shellcfg="$HOME/.bashrc"
+  shellcfg="$HOME/.bashrc"
 
   # bash
   if [[ "$SHELL" == "/bin/bash" ]]; then 
@@ -94,8 +94,14 @@ function terminal_notifier(){
   fi
 }
 
+# include miscellaneous helpers
+source ~/Desktop/shinst/src/tools/misc.sh
+
+# include environment inspector
+source ~/Desktop/shinst/src/tools/environment.sh && inspect_env
+
 # optional extension * (TODO: VERSION check!)
-if [[ $SHINST_OS == "darwin" ]]; then
+if [[ $OS == "darwin" ]]; then
   if [[ ! -a "$(which terminal-notifier)" ]]
     then 
 

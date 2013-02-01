@@ -53,6 +53,9 @@ repo=
 verbose=
 script=
 
+# ...
+notify=
+
 # pre-fetch / sanitize » TODO: contextualize *
 action=${1:-} 
 ghrepo=${2:-}
@@ -240,11 +243,17 @@ init(){
     # restore cwd
     cd "$current_path"
 
+    # system notification 
+    notify "$name installed"
+
   # handle action - update
   elif [ "$action" = "$action_update" ]; then
 
     # update by remote origin
     cd "$installdir" && git pull && cd -
+
+    # system notification 
+    notify "$name updated"
 
   # handle action - remove
   elif [ "$action" = "$action_remove" ]; then      
@@ -256,7 +265,7 @@ init(){
       printf "remove $name? («Y» to edit or any key to cancel) " && read -e REPLY  
       
       # process deletion or abort / cleanup / remove entries from configuration file    
-      ([ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]) && rm -rf "$installdir" && echo "removed $installdir" && cat "$HOME/$rcfile" | grep -Ev "# module ${name}|$(echo "# module ${name}" | tr '[a-z]' '[A-Z]')" | tee "$HOME/$rcfile" > /dev/null
+      ([ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]) && rm -rf "$installdir" && echo "removed $installdir" && notify "removed $installdir" && cat "$HOME/$rcfile" | grep -Ev "# module ${name}|$(echo "# module ${name}" | tr '[a-z]' '[A-Z]')" | tee "$HOME/$rcfile" > /dev/null
     else 
       error "unknown action '$action'"
     fi
@@ -290,6 +299,7 @@ defaults(){
   verbose "applying defaults"
 
   # apply defaults
+  notify=${SHINST_NOTIFY:-}
   branch=${branch:-$repo_branch}
   prefix=${prefix:-$HOME}
   script=${script:-$installer}
@@ -439,6 +449,9 @@ info(){ printf "\e[1;34minfo\e[0m  $1\n"; }
 
 # error utility
 error(){ printf "\e[1;31merror\e[0m $1\n\n"; }
+
+# system notifications (osx only)
+notify(){ if [ "$notify" = "true" ]; then terminal-notifier -message "$1" -title "shinst" -subtitle "$2" -execute /Applications/Safari.app/Contents/MacOS/Safari -group $notify_group; fi }
 
 # check for updates
 if [ "$auto_update" = "true" ]

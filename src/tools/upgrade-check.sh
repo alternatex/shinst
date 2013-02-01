@@ -92,3 +92,5 @@ check_for_upgrade(){
     update_cfg
   fi
 }
+
+check_for_upgrade

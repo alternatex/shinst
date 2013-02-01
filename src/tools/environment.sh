@@ -16,7 +16,7 @@ function inspect_env(){
   if [ "${OS}" = "windowsnt" ]; then
     OS=windows
   elif [ "${OS}" = "darwin" ]; then
-    OS=mac
+    OS=darwin
     VERSION=`sw_vers -productVersion`
   else
     OS=`uname`

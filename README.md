@@ -54,7 +54,11 @@ example: shinst install alternatex/bazinga
          shinst install alternatex/bazinga -b develop -n bazinga-custom -s -
          shinst install -r https://github.com/alternatex/bazinga.git -b develop -n bazinga-custom -s -
 
+<<<<<<< HEAD
 version: 1.5.0
+=======
+version: 1.4.1
+>>>>>>> feature/1.4.1
 
 ```
 
@@ -97,22 +101,24 @@ Changelog
 - added custom branch switch
 - added `webinst` routine 
 
+**1.4.1:**
+- fixed self-updater
+
+**1.4.1:**
+- fixed self-updater
+
 **1.5.0:**
 - added list command
 - added basic environment detection/switches
+- added terminal notifier
 
 TODO:
 - added terminal-notifier (MacOSX only)
 
 include messages!!!!
 include messages!!!!
-include messages!!!!
-include messages!!!!
-include messages!!!!
-include messages!!!!
 
 add switch global variable in shinst.sh when SHINST_NOTIFY="true" !!!!!!!
-
 
 Agile Roadmap
 -------------
