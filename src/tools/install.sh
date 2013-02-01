@@ -12,8 +12,12 @@ if [[ -a "$(which shinst)" ]]
 else
 
   # fetch installer
-  wget "https://raw.github.com/alternatex/shinst/develop/src/shinst.sh" -O shinst.sh && chmod a+x shinst.sh  
-
+  wget "https://raw.github.com/alternatex/shinst/develop/src/shinst.sh" -O shinst.sh && chmod a+x shinst.sh
+  
+  mkdir -p ~/.shinst/src/tools
+  wget "https://raw.github.com/alternatex/shinst/develop/src/tools/misc.sh" -O ~/.shinst/src/tools/misc.sh && chmod a+x ~/.shinst/src/tools/misc.sh  
+  wget "https://raw.github.com/alternatex/shinst/develop/src/tools/environment.sh" -O ~/.shinst/src/tools/environment.sh && chmod a+x ~/.shinst/src/tools/environment.sh 
+  
   # default configuration
   wget "https://raw.github.com/alternatex/shinst/develop/src/defaults/.shinstrc" -O ~/.shinstrc
 
@@ -36,6 +40,11 @@ else
   # ...
   echo "# shinst" >> $shellcfg
   echo "export SHINST=~/.shinst" >> $shellcfg         
+  
+  SHINST=~/.shinst
+
+  # helpers
+  source $SHINST/src/tools/misc.sh
   
   # environment inspection
   source $SHINST/src/tools/environment.sh && inspect_env

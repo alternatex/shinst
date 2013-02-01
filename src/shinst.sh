@@ -451,7 +451,7 @@ info(){ printf "\e[1;34minfo\e[0m  $1\n"; }
 error(){ printf "\e[1;31merror\e[0m $1\n\n"; }
 
 # system notifications (osx only)
-notify(){ if [ "$notify" = "true" ]; then terminal-notifier -message "$1" -title "shinst" -subtitle "$2" -execute /Applications/Safari.app/Contents/MacOS/Safari -group $notify_group; fi }
+notify(){ if [ "$notify" = "true" ]; then terminal-notifier -message "$1" -title "shinst" -subtitle "$2" -execute /Applications/Safari.app/Contents/MacOS/Safari -group $notify_group > /dev/null; fi }
 
 # check for updates
 if [ "$auto_update" = "true" ]

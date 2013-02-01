@@ -99,9 +99,6 @@ Changelog
 **1.4.1:**
 - fixed self-updater
 
-**1.4.1:**
-- fixed self-updater
-
 **1.5.0:**
 - added list command
 - added basic environment detection/switches
