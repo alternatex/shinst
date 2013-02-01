@@ -1,13 +1,16 @@
 #!/bin/bash
 
 # some bash opts
-set -o nounset
+#set -o nounset
 
 # home
 export SHINST=~/.shinst 
 
 # version
 export SHINST_VERSION="1.5.0"
+
+# include helpers
+source $SHINST/src/tools/misc.sh
 
 # environment inspection
 source $SHINST/src/tools/environment.sh && inspect_env
@@ -40,6 +43,7 @@ opts="hvn:p:r:s:b:"
 action_install="install"
 action_update="update"
 action_remove="remove"
+action_list="list"
 
 # internals » TODO: contextualize *
 name=
@@ -50,8 +54,8 @@ verbose=
 script=
 
 # pre-fetch / sanitize » TODO: contextualize *
-action="$1" 
-ghrepo="$2" 
+action=${1:-} 
+ghrepo=${2:-}
 
 # repository references
 repo_github="https://github.com"
@@ -89,7 +93,7 @@ usage:  shinst <action> <ghrepo> [options]
         shinst <action> <ghrepo>  -n <name> [options]
         shinst <action> -r <repo> -n <name> [options]
 
-action: install, update, remove
+action: install, update, remove, list
 
 ghrepo: github repository <user>/<repo> e.g. alternatex/shinst
 
@@ -105,6 +109,7 @@ options:
 example: shinst install alternatex/shinst -b develop -s -
          shinst install alternatex/shinst -n shinst-custom -s -
          shinst install -r https://github.com/alternatex/shinst.git -n shinst-custom -s -
+         shinst list 
 
 EOF
 echo "version: $SHINST_VERSION"
@@ -148,7 +153,7 @@ init(){
       else
 
         # say bye
-        echo "" && error "${message_dir_exists}: $installdir"
+        echo "" && error "directory exists: $installdir"
         exit -1
       fi
     fi
@@ -164,8 +169,6 @@ init(){
       shellcfg="$HOME/.zshrc"
     fi
 
-    # shellcfg update shinstrc only?
-
     # update shell configuration
     echo "# module ${name}" >> "$HOME/$rcfile"         
     echo "export PATH=\$HOME/.$name/bin:\$PATH; # module ${name}" >> "$HOME/$rcfile"
@@ -173,6 +176,10 @@ init(){
     # inject growl group identifier
     echo "# module ${name} growl messaging" >> "$HOME/$rcfile"         
     echo "export GROWL_ID_$(echo $name | tr '[a-z]' '[A-Z]')=$name; # module ${name}" >> "$HOME/$rcfile"
+
+    # register package in list (TODO: handle package determination differently - directory based /shinst-modules)
+    echo "# module ${name} registration" >> "$HOME/$rcfile"         
+    echo "export SHINST_PACKAGES=(\"\${SHINST_PACKAGES[@]}\" \"${name}\"); # module ${name}" >> "$HOME/$rcfile"
 
     # store cwd
     local current_path=`pwd` 
@@ -251,8 +258,16 @@ init(){
       # process deletion or abort / cleanup / remove entries from configuration file    
       ([ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]) && rm -rf "$installdir" && echo "removed $installdir" && cat "$HOME/$rcfile" | grep -Ev "# module ${name}|$(echo "# module ${name}" | tr '[a-z]' '[A-Z]')" | tee "$HOME/$rcfile" > /dev/null
     else 
-      error "$name not found"
+      error "unknown action '$action'"
     fi
+  # handle action - list
+  elif [ "$action" = "$action_list" ]; then      
+
+    # ...
+    printf "\e[32minstalled packages: \e[0m\n"
+
+    # dump all packages registered in .shinstrc - TODO: determine differently - scan directory?!
+    echo ${SHINST_PACKAGES[@]}
 
   # unknown action
   else
@@ -294,7 +309,21 @@ defaults(){
   fi
 
   # validate action (install|update|remove)
-  if [[ "$action" != "$action_install" ]] && [[ "$action" != "$action_update" ]] && [[ "$action" != "$action_remove" ]]; 
+
+  # process commandline options
+  #while getopts "$opts" OPTION 
+  #do  
+    # handle option     
+  #  case $OPTION in
+
+      # show help
+  #    ?) 
+  #      usage
+  #      ;; 
+  #  esac
+  #done
+
+  if [[ "$action" != "$action_install" ]] && [[ "$action" != "$action_update" ]] && [[ "$action" != "$action_remove" ]] && [[ "$action" != "$action_list" ]]; 
     then
 
       # ...
@@ -323,7 +352,7 @@ defaults(){
       # verbose
       verbose "extract name from repository: ${ghrepo} » ${name}"      
     fi
-  else 
+  elif [[ "$action" != "$action_list" ]]; then
 
     # unset global
     ghrepo="-"
@@ -422,6 +451,8 @@ then
   fi
 fi
 
+. ~/.shinstrc
+
 # determine separator
 separator=`echo $ghrepo | sed -n "s/[/].*//p" | wc -c`
 
@@ -445,7 +476,7 @@ do
     h) 
       usage
       ;; 
-
+    
     # package name
     n) 
       name=$OPTARG

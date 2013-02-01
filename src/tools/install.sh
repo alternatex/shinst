@@ -8,7 +8,7 @@ if [[ -a "$(which shinst)" ]]
   then 
   
   # do nothing *
-  printf "\e[32mshinst is installed.\e[0m   $1\n"
+  printf "\e[32mshinst is installed.\e[0m\n"
 else
 
   # fetch installer
@@ -36,9 +36,15 @@ else
   # ...
   echo "# shinst" >> $shellcfg
   echo "export SHINST=~/.shinst" >> $shellcfg         
-  # TODO: determine OS & VERSION
-  export SHINST_OS="MacOSX"
+  
+  # environment inspection
+  source $SHINST/src/tools/environment.sh && inspect_env
+
+  export SHINST_OS=$OS
+  export SHINST_OS_VERSION=$VERSION
+  
   echo "export SHINST_OS=$SHINST_OS" >> $shellcfg         
+  echo "export SHINST_OS_VERSION=$SHINST_OS_VERSION" >> $shellcfg         
   echo "export PATH=~/.shinst/bin:$PATH" >> $shellcfg       
   echo "source $HOME/.shinstrc" >> $shellcfg       
 
@@ -81,15 +87,15 @@ function terminal_notifier(){
         echo "export SHINST_NOTIFY=true" >> $shellcfg
         printf "\e[32malloy/terminal-notifier installed.\e[0m \n"
     else
-      printf "\e[1;31malloy/terminal-notifier installation failed.\e[0m \n"
-      echo "export SHINST_NOTIFY=" >> $shellcfg  
+      echo "export SHINST_NOTIFY=" >> $shellcfg
+      printf "\e[1;31malloy/terminal-notifier installation failed.\e[0m \n"        
     fi  
     printf "\e[32mdone.\e[0m   $1\n"
   fi
 }
 
 # optional extension * (TODO: VERSION check!)
-if [[ $SHINST_OS == "MacOSX" ]]; then
+if [[ $SHINST_OS == "darwin" ]]; then
   if [[ ! -a "$(which terminal-notifier)" ]]
     then 
 

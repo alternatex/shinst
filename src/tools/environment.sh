@@ -7,16 +7,15 @@ datetime=$(date +%Y%m%d%H%M%S)
 function inspect_env(){
   OS=`lcase $(uname)`
   KERNEL=`uname -r`
-  MACH=`uname -m`      
+  MACH=`uname -m`    
   VERSION="-"
   DIST="-"
   DistroBasedOn="-"
   PSUEDONAME="-"
-  REV="-"
-      
-  if [ "${OS}" == "windowsnt" ]; then
+  REV="-" 
+  if [ "${OS}" = "windowsnt" ]; then
     OS=windows
-  elif [ "${OS}" == "darwin" ]; then
+  elif [ "${OS}" = "darwin" ]; then
     OS=mac
     VERSION=`sw_vers -productVersion`
   else
@@ -64,10 +63,6 @@ function inspect_env(){
     fi
 
   fi
-}
-
-function lcase(){
-  echo "$1" | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"
 }
 
 # ...

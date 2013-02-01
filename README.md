@@ -98,14 +98,28 @@ Changelog
 - added `webinst` routine 
 
 **1.5.0:**
-- added local repository support
-- added terminal-notifier (optional/MacOSX)
-- system language detection / l18N / externalize messages / .po *
+- added list command
+- added basic environment detection/switches
+
+TODO:
+- added terminal-notifier (MacOSX only)
+
+include messages!!!!
+include messages!!!!
+include messages!!!!
+include messages!!!!
+include messages!!!!
+include messages!!!!
+
+add switch global variable in shinst.sh when SHINST_NOTIFY="true" !!!!!!!
+
 
 Agile Roadmap
 -------------
 **1.6.0:**
-- basic dependency management (getting rid of install scripts for dependencies installable via shinst)
+- local repository development helper (fs watch/sync)
+- system language detection / l18N / externalize messages / .po \*
+- basic dependency management (getting rid of «some» install scripts for dependencies installable via shinst)
 - modules support
 - modules
   - bash.json
@@ -114,6 +128,7 @@ Agile Roadmap
   - configuration 
 
 **1.7.0:**
+- contextualize notification w/shinst-notifier » TODO: get cert to sign code ... * 
 - modules
   - basic logger
   - grunt 
@@ -136,7 +151,7 @@ Agile Roadmap
       - vcs: hg, svn, ..      
 - add longtops support
 - improve installer/uninstaller
-- local repository (artifactory *)
+- local repository (artifactory \*)
 
 **1.9.0:**
 - batch processing / new commands (update packages)
