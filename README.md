@@ -52,7 +52,7 @@ example: shinst install alternatex/bazinga -b develop -s -
          shinst install -r https://github.com/alternatex/bazinga.git -n bazinga-custom -s -
          shinst list
 
-version: 1.5.1
+version: 1.6.0
 ```
 
 Specification

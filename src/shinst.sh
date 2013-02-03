@@ -7,7 +7,7 @@
 export SHINST=~/.shinst 
 
 # version
-export SHINST_VERSION="1.5.1"
+export SHINST_VERSION="1.6.0"
 
 # include helpers
 source $SHINST/src/tools/misc.sh
