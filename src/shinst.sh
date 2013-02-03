@@ -7,7 +7,7 @@
 export SHINST=~/.shinst 
 
 # version
-export SHINST_VERSION="1.5.0"
+export SHINST_VERSION="1.5.1"
 
 # include helpers
 source $SHINST/src/tools/misc.sh
@@ -45,7 +45,7 @@ action_update="update"
 action_remove="remove"
 action_list="list"
 
-# internals » TODO: contextualize *
+# internals
 name=
 branch=
 prefix=
@@ -56,7 +56,7 @@ script=
 # ...
 notify=
 
-# pre-fetch / sanitize » TODO: contextualize *
+# pre-fetch / sanitize
 action=${1:-} 
 ghrepo=${2:-}
 
@@ -126,7 +126,7 @@ init(){
   cd ~
 
   # info
-  info "initializing"
+  verbose "initializing"
 
   # helper - install directory
   local installdir=`echo "$prefix/.$name"`
@@ -141,7 +141,7 @@ init(){
       info "directory exists: $installdir"
 
       # gather user input
-      printf "remove? («Y» to edit or any key to skip) " && read -e -t 5 REPLY
+      printf "remove? («Y» to edit or any key to skip) " && read REPLY
       
       # automatically set
       if [[ -z $REPLY ]]; then REPLY='n'; fi
@@ -182,7 +182,8 @@ init(){
 
     # register package in list (TODO: handle package determination differently - directory based /shinst-modules)
     echo "# module ${name} registration" >> "$HOME/$rcfile"         
-    echo "export SHINST_PACKAGES=(\"\${SHINST_PACKAGES[@]}\" \"${name}\"); # module ${name}" >> "$HOME/$rcfile"
+    echo "SHINST_PACKAGES=(\"\${SHINST_PACKAGES[@]}\" \"${name}\"); # module ${name}" >> "$HOME/$rcfile"
+    echo "export SHINST_PACKAGES; # module ${name}"
 
     # store cwd
     local current_path=`pwd` 
@@ -234,8 +235,9 @@ init(){
     fi
 
     # volo
-    if [[ -a "$(which volo)" ]] # package.json vs. inline vs. xxx. think.
+    if [[ -a "$(which volo)" ]] && [[ -a "package.json" ]] && [[ $(cat package.json | grep "volo" | wc -c) -gt "0" ]]
       then 
+
       printf "\e[32mrunning volo install\e[0m\n"
       volo install      
     fi
@@ -262,7 +264,7 @@ init(){
     if [ -d "$installdir" ]; then
 
       # request user input
-      printf "remove $name? («Y» to edit or any key to cancel) " && read -e REPLY  
+      printf "remove $name? («Y» to edit or any key to cancel) " && read REPLY  
       
       # process deletion or abort / cleanup / remove entries from configuration file    
       ([ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]) && rm -rf "$installdir" && echo "removed $installdir" && notify "removed $installdir" && cat "$HOME/$rcfile" | grep -Ev "# module ${name}|$(echo "# module ${name}" | tr '[a-z]' '[A-Z]')" | tee "$HOME/$rcfile" > /dev/null
@@ -372,7 +374,7 @@ defaults(){
       then
 
       # request user input      
-      printf "\e[33mname: \e[0m" && read -p "" && name="$REPLY"
+      printf "\e[33mname: \e[0m" && read "" && name="$REPLY"
       
       # check user input
       if [[ -z "$name" ]]; then 
@@ -388,7 +390,7 @@ defaults(){
       then
 
       # request user input
-      printf "\e[33mrepository: \e[0m" && read -p "" && repo="$REPLY"
+      printf "\e[33mrepository: \e[0m" && read "" && repo="$REPLY"
 
       # check user input
       if [[ -z "$repo" ]]; then 
@@ -401,13 +403,13 @@ defaults(){
   fi
 
   # info
-  info "action:      ${action}"
-  info "ghrepo:      ${ghrepo}"
-  info "name:        ${name}"
-  info "repo:        ${repo}"
-  info "prefix:      ${prefix}"
-  info "directory:   ${prefix}/.${name}"  
-  info "script:      ${script}"
+  verbose "action:      ${action}"
+  verbose "ghrepo:      ${ghrepo}"
+  verbose "name:        ${name}"
+  verbose "repo:        ${repo}"
+  verbose "prefix:      ${prefix}"
+  verbose "directory:   ${prefix}/.${name}"  
+  verbose "script:      ${script}"
 }
 
 # validation helpers
@@ -451,7 +453,7 @@ info(){ printf "\e[1;34minfo\e[0m  $1\n"; }
 error(){ printf "\e[1;31merror\e[0m $1\n\n"; }
 
 # system notifications (osx only)
-notify(){ if [ "$notify" = "true" ]; then terminal-notifier -message "$1" -title "shinst" -subtitle "$2" -execute /Applications/Safari.app/Contents/MacOS/Safari -group $notify_group > /dev/null; fi }
+notify(){ notify_group="shinst"; message=${1:-""}; if [ "$notify" = "true" ]; then terminal-notifier -message "$message" -title "shinst" > /dev/null; fi }
 
 # check for updates
 if [ "$auto_update" = "true" ]

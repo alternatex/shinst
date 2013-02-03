@@ -18,13 +18,11 @@ You can install this via the command line with either `curl` or `wget`.
 
 via `curl`
 
-`bash -s stable < <(curl -s https://raw.github.com/alternatex/shinst/master/src/tools/install.sh)`
-`bash -s stable < <(curl -s https://raw.github.com/alternatex/shinst/develop/src/tools/install.sh)`
+`curl https://raw.github.com/alternatex/shinst/develop/src/tools/install.sh -o install.sh && bash install.sh stable alternatex/shinst`
 
 via `wget`
 
-`bash -s stable < <(wget https://raw.github.com/alternatex/shinst/master/src/tools/install.sh -O -)`
-`bash -s stable < <(wget https://raw.github.com/alternatex/shinst/develop/src/tools/install.sh -O -)`
+`wget https://raw.github.com/alternatex/shinst/develop/src/tools/install.sh -O install.sh && bash install.sh stable alternatex/shinst`
 
 Usage
 -------------
@@ -54,23 +52,25 @@ example: shinst install alternatex/bazinga -b develop -s -
          shinst install -r https://github.com/alternatex/bazinga.git -n bazinga-custom -s -
          shinst list
 
-version: 1.5.0
+version: 1.5.1
 ```
 
 Specification
 -------------
-
-**webinst**
-
-`bash -s $branch $ghrepo < <(wget https://raw.github.com/alternatex/shinst/master/src/tools/install.sh -O -)`
-
-`bash -s $branch $ghrepo < <(wget https://raw.github.com/alternatex/shinst/develop/src/tools/install.sh -O -)`
 
 **.shinstrc**
 
 ```shell
 # ...
 ```
+
+**web installer**
+
+`wget https://raw.github.com/alternatex/shinst/develop/src/tools/install.sh -O install.sh && bash install.sh $branch $ghrepo`
+
+eg.
+
+`wget https://raw.github.com/alternatex/shinst/develop/src/tools/install.sh -O install.sh && bash install.sh stable alternatex/bazinga`
 
 Integration
 -----------
@@ -79,7 +79,7 @@ Integration
 Changelog
 -------------
 **1.1.0:**
-- added \*\*\*
+- added -
 
 **1.2.0:**
 - added self-updater
@@ -94,7 +94,7 @@ Changelog
 **1.4.0:**
 - added basic support for common package management systems (npm, bower, composer, volo)
 - added custom branch switch
-- added `webinst` routine 
+- added web installation helper
 
 **1.4.1:**
 - fixed self-updater
@@ -104,11 +104,19 @@ Changelog
 - added basic environment detection/switches
 - added terminal notifier
 
+**1.5.1:**
+- improved volo invocation (substring check)
+- fixed package list initialization
+- fixed skipped input when executing installer via stdin
+- fixed .shinstrc corruption upon package removal
+
 Agile Roadmap
 -------------
 **1.6.0:**
+- clear ambiguous declarations when tracking packages » install user/repo > .repo
+- add configure command  
 - local repository development helper (fs watch/sync)
-- system language detection / l18N / externalize messages / .po \*
+- rescan system / update configuration 
 - basic dependency management (getting rid of «some» install scripts for dependencies installable via shinst)
 - modules support
 - modules
@@ -118,6 +126,8 @@ Agile Roadmap
   - configuration 
 
 **1.7.0:**
+- distinct notification queues/groups » log (informal/no-action) && interaction request 
+- system language detection / l18N / externalize messages / .po \*
 - contextualize notification w/shinst-notifier » TODO: get cert to sign code ... * 
 - modules
   - basic logger
@@ -127,7 +137,6 @@ Agile Roadmap
       - language (integrate existing l18n stuff)
   - module spec extension/rework » zsh/oh-my-zsh  
   - vramsteg  
-  - growl messages 
 
 **1.8.0:**
 - modules
@@ -141,14 +150,12 @@ Agile Roadmap
       - vcs: hg, svn, ..      
 - add longtops support
 - improve installer/uninstaller
-- local repository (artifactory \*)
 
 **1.9.0:**
+- local repository (artifactory \*)
 - batch processing / new commands (update packages)
 - track "projects" (relates to update packages)
 - custom directory support (.shinstrc) for pkg installation w/ NPM approach (w/add. defaults: global/local)
-
-**2.0.0:**
 - repository manager / custom web+shinst protocol / content type handlers
 - move test repository into core
 - ... *
