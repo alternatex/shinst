@@ -173,6 +173,7 @@ init(){
     fi
 
     # update shell configuration
+    echo "" >> "$HOME/$rcfile"         
     echo "# module ${name}" >> "$HOME/$rcfile"         
     echo "export PATH=\$HOME/.$name/bin:\$PATH; # module ${name}" >> "$HOME/$rcfile"
   

@@ -105,10 +105,10 @@ function terminal_notifier(){
 }
 
 # include miscellaneous helpers
-source ~/Desktop/shinst/src/tools/misc.sh
+source ~/.shinst/src/tools/misc.sh
 
 # include environment inspector
-source ~/Desktop/shinst/src/tools/environment.sh && inspect_env
+source ~/.shinst/src/tools/environment.sh && inspect_env
 
 # optional extension * (TODO: VERSION check!)
 if [[ $OS == "darwin" ]]; then

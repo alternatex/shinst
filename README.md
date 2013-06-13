@@ -1,9 +1,7 @@
 Shinst
 =============
 
-Superficial - yet GIT-ortiented - package management utility
-
-Package management, really?
+Superficial management utility
 
 Installation
 ------------
@@ -113,6 +111,7 @@ Changelog
 Agile Roadmap
 -------------
 **1.6.0:**
+- basic package self-updater (implies wrap?!)
 - clear ambiguous declarations when tracking packages » install user/repo > .repo
 - add configure command  
 - local repository development helper (fs watch/sync)
